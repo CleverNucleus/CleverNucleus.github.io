@@ -110,8 +110,8 @@ description: "Intended as a documentation theme based on Jekyll for technical wr
 # the description is used in the feed.xml file
 
 # needed for sitemap.xml file only
-# url: http://clevernucleus.github.io
-# baseurl: /documentation
+url: "https://clevernucleus.github.io"
+baseurl: ""
 
 
 github: [metadata]
