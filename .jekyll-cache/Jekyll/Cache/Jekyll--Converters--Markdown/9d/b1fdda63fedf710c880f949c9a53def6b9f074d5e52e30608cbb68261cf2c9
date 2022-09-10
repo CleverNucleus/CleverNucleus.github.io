@@ -1,0 +1,366 @@
+I"\`<h2 id="structure-and-overview">Structure and Overview</h2>
+
+<p>Data Attributes includes an API package, located at <code class="language-plaintext highlighter-rouge">com.github.clevernucleus.dataattributes.api</code> and contains the following:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>📂api
+ ┣📂attribute
+ ┃ ┣📄IEntityAttribute.java interface
+ ┃ ┣📄IEntityAttributeInstance.java interface
+ ┃ ┣📄IItemEntityAttributeModifiers.java interface
+ ┃ ┣📄StackingBehaviour.java enum
+ ┃ ┗📄StackingFunction.java interface
+ ┃
+ ┣📂event
+ ┃ ┣📄EntityAttributeModifiedEvents.java class
+ ┃ ┗📄AttributesReloadedEvent.java class
+ ┃
+ ┣📂item
+ ┃ ┣📄ItemFields.java class
+ ┃ ┗📄ItemHelper.java interface
+ ┃
+ ┣📂util
+ ┃ ┣📄Maths.java class
+ ┃ ┣📄RandDistribution.java class
+ ┃ ┗📄VoidConsumer.java interface
+ ┃
+ ┗📄DataAttributesAPI.java class
+</code></pre></div></div>
+
+<h2 id="api-content">API Content</h2>
+
+<p>The following subsections detail every method/field in each java class located in the <code class="language-plaintext highlighter-rouge">api</code> package.</p>
+
+<h3 id="1-attributeientityattributejava">1. attribute.IEntityAttribute.java</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modifiers and Type</th>
+      <th>Method/Field and Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">double</code></span></td>
+      <td><span id="redCode"><strong>minValue</strong>()</span> <br />Returns the attribute’s minimum value.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">double</code></span></td>
+      <td><span id="redCode"><strong>maxValue</strong>()</span> <br />Returns the attribute’s maximum value.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">StackingBehaviour</code></span></td>
+      <td><span id="redCode"><strong>stackingBehaviour</strong>()</span> <br />Returns the attribute’s stacking behaviour enum type.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">Map&lt;IEntityAttribute, Double&gt;</code></span></td>
+      <td><span id="redCode"><strong>children</strong>()</span> <br />Returns an immutable map of the function-children attached to this attribute.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">Collection&lt;String&gt;</code></span></td>
+      <td><span id="redCode"><strong>properties</strong>()</span> <br />Returns an immutable collection of the properties’ keys attached to this attribute.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">boolean</code></span></td>
+      <td><span id="redCode"><strong>hasProperty</strong>(<strong>String</strong> property)</span> <br />Returns <code class="language-plaintext highlighter-rouge">true</code> if this attribute has the input property key, <code class="language-plaintext highlighter-rouge">false</code> if not or if the input is null.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">String</code></span></td>
+      <td><span id="redCode"><strong>getProperty</strong>(<strong>String</strong> property)</span> <br />Returns the attribute’s property value mapped to the input key. If it does not exist or is null, returns <code class="language-plaintext highlighter-rouge">""</code>.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="2-attributeientityattributeinstancejava">2. attribute.IEntityAttributeInstance.java</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modifiers and Type</th>
+      <th>Method/Field and Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">void</code></span></td>
+      <td><span id="redCode"><strong>updateModifier</strong>(<strong>UUID</strong> uuid, <strong>double</strong> value)</span> <br />Changes the value of the input modifier (if it exists) and updates the instance and all children.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="3-attributeiitementityattributemodifiersjava">3. attribute.IItemEntityAttributeModifiers.java</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modifiers and Type</th>
+      <th>Method/Field and Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">default</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">Multimap&lt;EntityAttribute, EntityAttributeModifier&gt;</code></span></td>
+      <td><span id="redCode"><strong>getAttributeModifiers</strong>(<strong>ItemStack</strong> stack, <strong>EquipmentSlot</strong> slot)</span> <br />This method provides a mutable attribute modifier multimap so that items can have dynamically changing modifiers based on nbt. By default returns an empty <code class="language-plaintext highlighter-rouge">HashMultimap</code>.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="4-attributestackingbehaviourjava">4. attribute.StackingBehaviour.java</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modifiers and Type</th>
+      <th>Method/Field and Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">StackingBehaviour</code></span></td>
+      <td><span id="redCode"><strong>FLAT</strong></span> <br />Flat/normal stacking behaviour.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">StackingBehaviour</code></span></td>
+      <td><span id="redCode"><strong>DIMINISHING</strong></span> <br />Flat/normal stacking behaviour.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">byte</code></span></td>
+      <td><span id="redCode"><strong>id</strong>()</span> <br />Returns the byte id of the behaviour enum.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">double</code></span></td>
+      <td><span id="redCode"><strong>max</strong>(<strong>double</strong> current, <strong>double</strong> input)</span> <br />Clamps the input and returns the greater of the current or absolute clamped input.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">double</code></span></td>
+      <td><span id="redCode"><strong>stack</strong>(<strong>double</strong> current, <strong>double</strong> input)</span> <br />Clamps the input and returns the current + the absolute clamped input.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">double</code></span></td>
+      <td><span id="redCode"><strong>result</strong>(<strong>double</strong> k, <strong>double</strong> k2, <strong>double</strong> v, <strong>double</strong> v2, <strong>double</strong> increment)</span> <br />Returns the inputs through the correct function for the specific behaviour type.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">StackingBehaviour</code></span></td>
+      <td><span id="redCode"><strong>of</strong>(<strong>byte</strong> id)</span> <br />Takes a byte id and retusn the corresponding behaviour type.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="5-attributestackingfunctionjava">5. attribute.StackingFunction.java</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modifiers and Type</th>
+      <th>Method/Field and Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">double</code></span></td>
+      <td><span id="redCode"><strong>result</strong>(<strong>double</strong> k, <strong>double</strong> k2, <strong>double</strong> v, <strong>double</strong> v2, <strong>double</strong> increment)</span> <br />Returns the inputs through the correct function for the specific behaviour type.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="6-evententityattributemodifiedeventsjava">6. event.EntityAttributeModifiedEvents.java</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modifiers and Type</th>
+      <th>Method/Field and Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">Event&lt;Reloaded&gt;</code></span></td>
+      <td><span id="redCode"><strong>EVENT</strong></span> <br />Fires when the value of an attribute instance has been modified, either by adding/removing a modifier or changing the value of a modifier.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">Event&lt;Clamp&gt;</code></span></td>
+      <td><span id="redCode"><strong>CLAMPED</strong></span> <br />Fires after the attribute instance value is calculated, but before it is output. This offers one last chance to alter the value in some way (for example round a decimal to an integer).</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">interface</code></span></td>
+      <td><span id="redCode"><strong>Modified</strong> {…}</span> <br />Nested functional interface for <code class="language-plaintext highlighter-rouge">MODIFIED</code> .</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">interface</code></span></td>
+      <td><span id="redCode"><strong>Clamp</strong> {…}</span> <br />Nested functional interface for <code class="language-plaintext highlighter-rouge">CLAMPED</code> .</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="7-eventattributesreloadedeventjava">7. event.AttributesReloadedEvent.java</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modifiers and Type</th>
+      <th>Method/Field and Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">Event&lt;Reloaded&gt;</code></span></td>
+      <td><span id="redCode"><strong>EVENT</strong></span> <br />Event that alows for logic reliant on datapack attributes to be ordered after they are loaded on both the server and client. Fired on Server upon joining world and on datapack reload through <code class="language-plaintext highlighter-rouge">/reload</code>. Fired on Client when selecting datapacks and after server has synced with client.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">interface</code></span></td>
+      <td><span id="redCode"><strong>Reloaded</strong> {…}</span> <br />Nested functional interface for <code class="language-plaintext highlighter-rouge">EVENT</code> .</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="8-itemitemfieldsjava">8. item.ItemFields.java</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modifiers and Type</th>
+      <th>Method/Field and Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">UUID</code></span></td>
+      <td><span id="redCode"><strong>attackDamageModifierID</strong>()</span> <br />Returns <code class="language-plaintext highlighter-rouge">Item#ATTACK_DAMAGE_MODIFIER_ID</code>.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">UUID</code></span></td>
+      <td><span id="redCode"><strong>attackSpeedModifierID</strong>()</span> <br />Returns <code class="language-plaintext highlighter-rouge">Item#ATTACK_SPEED_MODIFIER_ID</code>.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="9-itemitemhelperjava">9. item.ItemHelper.java</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modifiers and Type</th>
+      <th>Method/Field and Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">default</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">void</code></span></td>
+      <td><span id="redCode"><strong>onStackCreated</strong>(<strong>ItemStack</strong> itemStack, <strong>int</strong> count)</span> <br />Fired on the constructor for itemstacks. All items are automatically an instance of <code class="language-plaintext highlighter-rouge">ItemHelper</code>, so checks should be made when using this to avoid running unnecessary logic on all itemstack creation events. Example usage includes attaching nbt data when an itemstack is first created.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">default</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">float</code></span></td>
+      <td><span id="redCode"><strong>getAttackDamage</strong>(<strong>ItemStack</strong> itemStack)</span> <br />Returns <code class="language-plaintext highlighter-rouge">0.0</code> by default. ItemStack dependent version of <code class="language-plaintext highlighter-rouge">SwordItem#getAttackDamage</code> and <code class="language-plaintext highlighter-rouge">MiningToolItem#getAttackDamage</code>; for the <code class="language-plaintext highlighter-rouge">SwordItem</code> and <code class="language-plaintext highlighter-rouge">MiningToolItem</code>, returns the non-itemstack dependent methods.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">default</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">float</code></span></td>
+      <td><span id="redCode"><strong>getProtection</strong>(<strong>ItemStack</strong> itemStack)</span> <br />Returns <code class="language-plaintext highlighter-rouge">0.0</code> by default. ItemStack dependent version of <code class="language-plaintext highlighter-rouge">ArmorItem#getProtection</code>; for <code class="language-plaintext highlighter-rouge">ArmorItem</code>, returns the non-itemstack dependent method.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">default</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">float</code></span></td>
+      <td><span id="redCode"><strong>getToughness</strong>(<strong>ItemStack</strong> itemStack)</span> <br />Returns <code class="language-plaintext highlighter-rouge">0.0</code> by default. ItemStack dependent version of <code class="language-plaintext highlighter-rouge">ArmorItem#getToughness</code>; for <code class="language-plaintext highlighter-rouge">ArmorItem</code>, returns the non-itemstack dependent method.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">SoundEvent</code></span></td>
+      <td><span id="redCode"><strong>getEquipSound</strong>(<strong>ItemStack</strong> itemStack)</span> <br />Returns <code class="language-plaintext highlighter-rouge">null</code> by default. ItemStack dependent version of <code class="language-plaintext highlighter-rouge">Item#getEquipSound</code>.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="10-utilmathsjava">10. util.Maths.java</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modifiers and Type</th>
+      <th>Method/Field and Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">Map&lt;K, V&gt;</code></span></td>
+      <td><span id="redCode"><strong>enumLookupMap</strong>(<strong>V[]</strong> values, <strong>Function&lt;V, K&gt;</strong> mapping)</span> <br />Creates a static lookup map for the input <code class="language-plaintext highlighter-rouge">enum#values</code> implementation.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">float</code></span></td>
+      <td><span id="redCode"><strong>parse</strong>(<strong>String</strong> string)</span> <br />Parses a string to a float. If it cannot be parsed, returns <code class="language-plaintext highlighter-rouge">0F</code>.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">double</code></span></td>
+      <td><span id="redCode"><strong>stairs</strong>(<strong>double</strong> x, <strong>double</strong> stretch, <strong>double</strong> steepness, <strong>double</strong> xOffset, <strong>double</strong> yOffset)</span> <br />A staircase function based on <code class="language-plaintext highlighter-rouge">Math#sin</code>.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">boolean</code></span></td>
+      <td><span id="redCode"><strong>isWithinLimits</strong>(<strong>double</strong> value, <strong>double</strong> min, <strong>double</strong> max)</span> <br />Returns <code class="language-plaintext highlighter-rouge">true</code> if the value is less than max and greater than or equal to min.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="11-utilranddistributionjava">11. util.RandDistribution.java</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modifiers and Type</th>
+      <th>Method/Field and Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span></td>
+      <td><span id="redCode"><strong>RandDistribution</strong>(<strong>T</strong> fallback)</span> <br />Constructor.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">void</code></span></td>
+      <td><span id="redCode"><strong>add</strong>(<strong>T</strong> input, <strong>float</strong> weight)</span> <br />Adds to the internal inventory of the distributor.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">T</code></span></td>
+      <td><span id="redCode"><strong>getDistributedRandom</strong>()</span> <br />Returns a randomly distributed and weighted result.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="12-utilvoidconsumerjava">12. util.VoidConsumer.java</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modifiers and Type</th>
+      <th>Method/Field and Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">void</code></span></td>
+      <td><span id="redCode"><strong>accept</strong>()</span> <br />A functional interface equivalent to a Consumer, but with no parameters.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="13-dataattributesapijava">13. DataAttributesAPI.java</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modifiers and Type</th>
+      <th>Method/Field and Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">String</code></span></td>
+      <td><span id="redCode"><strong>MODID</strong></span> <br />The mod id.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">Supplier&lt;EntityAttribute&gt;</code></span></td>
+      <td><span id="redCode"><strong>getAttribute</strong>(<strong>Identifier</strong> registryKey)</span> <br />Returns a <code class="language-plaintext highlighter-rouge">Supplier</code> getting the registered attribute assigned to the input key. Uses a supplier because attributes added through json are null until datapacks are loaded/synced to the client, so static initialisation would not work.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">T</code></span></td>
+      <td><span id="redCode"><strong>ifPresent</strong>(<strong>LivingEntity</strong> entity, <strong>Supplier&lt;EntityAttribute&gt;</strong> attribute, <strong>T</strong> fallback, <strong>Function&lt;Float, T&gt;</strong> function)</span> <br />Allows for Optional-like use of attributes that may or may not exist all the time. This is the correct way of getting and using values from attributes loaded by datapacks. If the entity is not null and the input attribute exists, and the entity has the input attribute, passes and returns the input function. Otherwise, returns the fallback input.</td>
+    </tr>
+  </tbody>
+</table>
+
+:ET

@@ -1,0 +1,58 @@
+I"r<div class="alert alert-warning" role="alert"><i class="fa fa-warning"></i> <b>Important:</b> This section is now outdated and unsupported. Click <a href="dataattributes-1.18.2_home">here</a> for the latest release.</div>
+
+<h2 id="overview">Overview</h2>
+
+<p>Entity attributes have four data points that can be override using json files; see the following:</p>
+
+<ul>
+  <li>Minimum Value <code class="language-plaintext highlighter-rouge">minValue</code>: the minimum value that this attribute’s instance is clamped to.</li>
+  <li>Maximum Value <code class="language-plaintext highlighter-rouge">maxValue</code>: the maixmum value that this attribute’s instance is clamped to.</li>
+  <li>Fallback Value <code class="language-plaintext highlighter-rouge">defaultValue</code>: the value that, should something go wrong, this attribute’s instance defers to (this almost never has any actual impact in-game, other than setting initial values if they are not otherwise provided).</li>
+  <li>Translation Key <code class="language-plaintext highlighter-rouge">translationKey</code>: the key that gets the display name of the attribute.</li>
+  <li>Stacking Behaviour <code class="language-plaintext highlighter-rouge">stackingBehaviour</code>: determines how different sources of this attribute’s value add together (either <code class="language-plaintext highlighter-rouge">FLAT</code> or <code class="language-plaintext highlighter-rouge">DIMINISHING</code>).’</li>
+</ul>
+
+<h3 id="1-example-1">1. Example 1</h3>
+
+<p>Minecraft’s armor attribute has the following:</p>
+
+<ul>
+  <li>Default Value is 0.0.</li>
+  <li>Minimum Value is 0.0.</li>
+  <li>Maximum Value is 30.0.</li>
+  <li>Translation Key is attribute.name.generic.armor.</li>
+</ul>
+
+<p>Say we want to change the maximum armor value to 100.0. We need to know the attribute’s registry key, which is comprised of a <code class="language-plaintext highlighter-rouge">namespace</code> and a <code class="language-plaintext highlighter-rouge">path</code>. In this case, the registry key is <code class="language-plaintext highlighter-rouge">minecraft:generic.armor</code>. In the directory <code class="language-plaintext highlighter-rouge">data/minecraft/attributes/overrides</code> we create the file <code class="language-plaintext highlighter-rouge">generic.armor.json</code>. Note how the registry key’s namespace matches our directory’s namespace, and the registry key’s path matches our file name.</p>
+
+<p>We add the following to <code class="language-plaintext highlighter-rouge">generic.armor.json</code>:</p>
+
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+    </span><span class="nl">"defaultValue"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"minValue"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"maxValue"</span><span class="p">:</span><span class="w"> </span><span class="mf">100.0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"translationKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"attribute.name.generic.armor"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"stackingBehaviour"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FLAT"</span><span class="w">
+</span><span class="p">}</span></code></pre></figure>
+
+<p>That’s it. By using a datapack containing <code class="language-plaintext highlighter-rouge">data/minecraft/attributes/overrides/generic.armor.json</code>, the maximum value for armor is 100.</p>
+
+<h3 id="2-example-2">2. Example 2</h3>
+
+<p>Similarly to example 1, the same methodology can be used to create entirely new attributes. Say we have a mod with modid <code class="language-plaintext highlighter-rouge">examplemod</code>, and we want to add the attribute <code class="language-plaintext highlighter-rouge">max_mana</code>. We create the directory <code class="language-plaintext highlighter-rouge">data/examplemod/attributes/overrides/</code> and create the file <code class="language-plaintext highlighter-rouge">max_mana.json</code>. Inside the json file add the following:</p>
+
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+    </span><span class="nl">"defaultValue"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"minValue"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"maxValue"</span><span class="p">:</span><span class="w"> </span><span class="mf">1000.0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"translationKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"examplemod.attribute.name.max_mana"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"stackingBehaviour"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FLAT"</span><span class="w">
+</span><span class="p">}</span></code></pre></figure>
+
+<p>We now have an attribute registered to the game. In our language file we can add the translation key entry like so:</p>
+
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="nl">"examplemod.attribute.name.max_mana"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max Mana"</span></code></pre></figure>
+
+<p>Although our attribute is registered to the game, it won’t be present on any living entity yet. The next step is to attach it to an entity’s attribute container - see <a href="dataattributes-1.18.1_entity_types">Entity Types</a>.</p>
+
+:ET

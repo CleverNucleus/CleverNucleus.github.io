@@ -1,0 +1,271 @@
+I"�^<div class="alert alert-warning" role="alert"><i class="fa fa-warning"></i> <b>Important:</b> It is advisable to see <a href="dataattributes-1.18.2_home">Data Attributes</a> as well as to familiarise yourself with Minecraft’s <a href="https://minecraft.fandom.com/wiki/Data_pack">datapack system</a> before continuing.</div>
+
+<h2 id="1-how-do-i-customise-the-levelling-formula">1. How do I customise the Levelling Formula?</h2>
+
+<p>The levelling formula is a mathematical function written as an expression that takes in one argument, \(x\), and produces one output, \(y\). By default, this function is expressed as follows:</p>
+
+\[y=stairs(x, 0.15, 2, 25, 10, 22)\]
+
+<p>Where \(stairs(x,u,v,i,j,m)\) is provided by:</p>
+
+\[y=\min{(v\times u\times (x-i)-v\times \sin{(u\times (x-i))}+j}{,m)}\]
+
+<p>When plotting this as a graph, \(x\) is the player’s current PlayerEx level, and \(y\) is how many experience vanilla levels is needed to get to the next PlayerEx level.</p>
+
+<div style="text-align: center">
+
+<figure><img class="docimage" src="images/level_formula.png" alt="level formula" style="max-width: 600px" /><figcaption>The default levelling formula</figcaption></figure>
+
+
+
+
+</div>
+
+<p>Using the graph, we can see that when first starting out it will take 1 vanilla experience level to gain a PlayerEx level. We can see that it will take 10 vanilla experience levels to gain another PlayerEx level while the player is at levels 20 - 30. Finally, we can see that the number of vanilla levels needed to gain another PlayerEx level is capped at 22.</p>
+
+<p>When entering an expression into the config, some functions are supported out of the box such as \(\sin\) and \(\cos\) - see <a href="https://www.objecthunter.net/exp4j/">here</a> for a list of supported functions and constants. Note that the \(x\) variable, which represents the player’s current PlayerEx level, <em>must</em> be included in your expression.</p>
+
+<p>The following are examples of the expression entered into the config:</p>
+
+<h3 id="11-the-default-formula">1.1 The default formula</h3>
+
+<p>The default levelling formula, as discussed previously.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">stairs</span><span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="mf">0.15</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">25</span><span class="o">,</span><span class="mi">10</span><span class="o">,</span><span class="mi">22</span><span class="o">)</span></code></pre></figure>
+
+<h3 id="12-a-constant-cost">1.2 A constant cost</h3>
+
+<p>This formula makes it so that it always takes 4 vanilla levels to gain a PlayerEx level, regardless of how high a level you already are.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">x</span><span class="o">-</span><span class="n">x</span><span class="o">+</span><span class="mi">4</span></code></pre></figure>
+
+<h3 id="13-exponential">1.3 Exponential</h3>
+
+<p>This formula gives a relatively gentle exponential curve, where it costs 1 vanilla experience level to gain the first PlayerEx level, and 21 vanilla experience levels at level 20.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="mi">1</span><span class="o">+</span><span class="mf">0.05</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span></code></pre></figure>
+
+<div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> <b>Note:</b> Be careful to only input the right side into the config i.e. not <code class="language-plaintext highlighter-rouge">y=...</code></div>
+
+<h2 id="2-how-do-i-set-the-players-max-level">2. How do I set the player’s Max Level?</h2>
+
+<p>By default the maximum achievable level is set to \(2^{31}-1\), but is realistically limited by the levelling formula and how much experience the player can get. The best method to set a maximum level is to set the level attribute’s max value using a datapack. For this example we will set the maximum level to 50.</p>
+
+<h3 id="21-file-folder-structure">2.1 File-Folder Structure</h3>
+
+<p>You need to create the following file-folder structure:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>📂anything.zip
+ ┣📄pack.mcmeta
+ ┗📂data
+   ┗📂playerex
+     ┗📂attributes
+       ┗📂overrides
+         ┗📄level.json
+</code></pre></div></div>
+
+<p>Where <code class="language-plaintext highlighter-rouge">anything</code> can be named as you like - but it must not be <code class="language-plaintext highlighter-rouge">playerex</code> or <code class="language-plaintext highlighter-rouge">minecraft</code>.</p>
+
+<h3 id="22-packmcmeta">2.2 pack.mcmeta</h3>
+
+<p>Your <code class="language-plaintext highlighter-rouge">pack.mcmeta</code> file needs the following json code:</p>
+
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+    </span><span class="nl">"pack"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"pack_format"</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ExamplePack"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"color"</span><span class="p">:</span><span class="s2">"gold"</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"</span><span class="se">\n</span><span class="s2">CleverNucleus/PlayerEx"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"color"</span><span class="p">:</span><span class="s2">"yellow"</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span></code></pre></figure>
+
+<p>Take care to use the correct <code class="language-plaintext highlighter-rouge">pack_format</code> for the correct version of the game.</p>
+
+<h3 id="23-leveljson">2.3 level.json</h3>
+
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+    </span><span class="nl">"fallbackValue"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"minValue"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"maxValue"</span><span class="p">:</span><span class="w"> </span><span class="mf">50.0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"incrementValue"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"translationKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"playerex.attribute.name.level"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"stackingBehaviour"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FLAT"</span><span class="w">
+</span><span class="p">}</span></code></pre></figure>
+
+<p>Now use the datapack in your world, and the max level is 50.</p>
+
+<h2 id="3-how-do-i-set-the-players-starting-max-health">3. How do I set the player’s starting Max Health?</h2>
+
+<p>This is similar to <a href="playerex-1.18.2_faq.html#how-do-i-set-the-players-max-level">2.</a>. We will set the max health from 20 (10 hearts) to 6 (3 hearts).</p>
+
+<h3 id="31-file-folder-structure">3.1 File-Folder Structure</h3>
+
+<p>You need to create the following file-folder structure:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>📂anything.zip
+ ┣📄pack.mcmeta
+ ┗📂data
+   ┗📂anything
+     ┗📂attributes
+       ┗📄entity_types.json
+</code></pre></div></div>
+
+<p>Where <code class="language-plaintext highlighter-rouge">anything</code> can be named as you like - but it must not be <code class="language-plaintext highlighter-rouge">playerex</code> or <code class="language-plaintext highlighter-rouge">minecraft</code>.</p>
+
+<h3 id="32-packmcmeta">3.2 pack.mcmeta</h3>
+
+<p>Your <code class="language-plaintext highlighter-rouge">pack.mcmeta</code> file needs the following json code:</p>
+
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+    </span><span class="nl">"pack"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"pack_format"</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ExamplePack"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"color"</span><span class="p">:</span><span class="s2">"gold"</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"</span><span class="se">\n</span><span class="s2">CleverNucleus/PlayerEx"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"color"</span><span class="p">:</span><span class="s2">"yellow"</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span></code></pre></figure>
+
+<p>Take care to use the correct <code class="language-plaintext highlighter-rouge">pack_format</code> for the correct version of the game.</p>
+
+<h3 id="33-entity_typesjson">3.3 entity_types.json</h3>
+
+<p>Your <code class="language-plaintext highlighter-rouge">entity_types.json</code> file needs the following json code:</p>
+
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+    </span><span class="nl">"values"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"minecraft:player"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"minecraft:generic.max_health"</span><span class="p">:</span><span class="w"> </span><span class="mf">6.0</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span></code></pre></figure>
+
+<p>Now use the datapack in your world, and the starting max health is 6.</p>
+
+<h2 id="4-how-do-i-revert-melee-crit-behaviour-to-vanilla">4. How do I Revert Melee Crit Behaviour to Vanilla?</h2>
+
+<p>PlayerEx subtly changes Minecraft’s melee crit to be chance based, instead of on-jump. Furthermore, melee crit damage is also changed to be attribute based, instead of a flat x1.5. This behaviour can be reverted with a datapack.</p>
+
+<h3 id="41-file-folder-structure">4.1 File-Folder Structure</h3>
+
+<p>You need to create the following file-folder structure:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>📂anything.zip
+ ┣📄pack.mcmeta
+ ┗📂data
+   ┗📂playerex
+     ┗📂attributes
+       ┣📄entity_types.json
+       ┗📄functions.json
+</code></pre></div></div>
+
+<h3 id="42-packmcmeta">4.2 pack.mcmeta</h3>
+
+<p>Your <code class="language-plaintext highlighter-rouge">pack.mcmeta</code> file needs the following json code:</p>
+
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+    </span><span class="nl">"pack"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"pack_format"</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ExamplePack"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"color"</span><span class="p">:</span><span class="s2">"gold"</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"</span><span class="se">\n</span><span class="s2">CleverNucleus/PlayerEx"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"color"</span><span class="p">:</span><span class="s2">"yellow"</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span></code></pre></figure>
+
+<p>Take care to use the correct <code class="language-plaintext highlighter-rouge">pack_format</code> for the correct version of the game.</p>
+
+<h3 id="43-entity_typesjson">4.3 entity_types.json</h3>
+
+<p>Your <code class="language-plaintext highlighter-rouge">entity_types.json</code> file needs the following json code:</p>
+
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+    </span><span class="nl">"values"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"minecraft:player"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"playerex:level"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"playerex:constitution"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"playerex:strength"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"playerex:dexterity"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"playerex:intelligence"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"playerex:luckiness"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"playerex:evasion"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"playerex:lifesteal"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"playerex:health_regeneration"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"playerex:heal_amplification"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"playerex:ranged_crit_damage"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"playerex:ranged_crit_chance"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"playerex:ranged_damage"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"playerex:fire_resistance"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"playerex:freeze_resistance"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"playerex:lightning_resistance"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"playerex:poison_resistance"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"playerex:wither_resistance"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"playerex:breaking_speed"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span></code></pre></figure>
+
+<p>This is exactly the same as the <code class="language-plaintext highlighter-rouge">entity_types.json</code> file that ships with PlayerEx, but without the two entries <code class="language-plaintext highlighter-rouge">"playerex:melee_crit_damage": 0.0,</code> and <code class="language-plaintext highlighter-rouge">"playerex:melee_crit_chance": 0.0,</code>.</p>
+
+<h3 id="44-functionsjson">4.4 functions.json</h3>
+
+<p>Your <code class="language-plaintext highlighter-rouge">functions.json</code> file needs the following json code:</p>
+
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+    </span><span class="nl">"values"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"playerex:constitution"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"minecraft:generic.max_health"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"minecraft:generic.knockback_resistance"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.01</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"playerex:poison_resistance"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.01</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nl">"playerex:strength"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"minecraft:generic.attack_damage"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.25</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"minecraft:generic.armor"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"playerex:health_regeneration"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.01</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nl">"playerex:dexterity"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"minecraft:generic.attack_speed"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"playerex:ranged_damage"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.25</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"playerex:lightning_resistance"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.01</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nl">"playerex:intelligence"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"playerex:heal_amplification"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.002</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"playerex:ranged_crit_damage"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.005</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"playerex:wither_resistance"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.01</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nl">"playerex:luckiness"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"minecraft:generic.luck"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"playerex:evasion"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.02</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"playerex:ranged_crit_chance"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.02</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span></code></pre></figure>
+
+<p>This is exactly the same as the <code class="language-plaintext highlighter-rouge">functions.json</code> file that ships with PlayerEx, but without the two entries <code class="language-plaintext highlighter-rouge">"playerex:melee_crit_damage": 0.005,</code> and <code class="language-plaintext highlighter-rouge">"playerex:melee_crit_chance": 0.02,</code>.</p>
+
+<p>Now use the datapack in your world, and the melee crit behaviour will be vanilla.</p>
+
+<h2 id="5-is-there-compatibility-for-darkmode-gui">5. Is there compatibility for darkmode GUI?</h2>
+
+<p>Yes, this can be done with a resource pack. Textures for compatibility with Vanilla Tweaks <a href="https://vanillatweaks.net/picker/resource-packs/">Dark UI</a> are available <a href="https://github.com/CleverNucleus/PlayerEx/tree/master/img/darkmode">here</a>.</p>
+
+:ET

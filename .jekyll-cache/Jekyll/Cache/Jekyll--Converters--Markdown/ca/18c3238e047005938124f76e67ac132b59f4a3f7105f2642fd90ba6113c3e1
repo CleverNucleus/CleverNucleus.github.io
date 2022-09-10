@@ -1,0 +1,473 @@
+I")<p>The following pages and posts are tagged with <button type="button" style="cursor: default" class="btn btn-default navbar-btn">1.18.1</button></p>
+<table><thead><tr><th>Title</th><th>Type</th><th>Excerpt</th></tr></thead>
+    <tbody>
+    
+  
+    
+   
+    
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+        
+
+        <tr><td><a href="dataattributes-1.18.1_api.html">API</a></td>
+            <td><span class="label label-default">Page</span></td>
+          <td>  Important: This section is now outdated and unsupported. Click here for the latest release. Structure and Overview Data Attributes includes an API package, located at com.github.clevernucleus.dataattributes.api and contains the following: 📂api ┣📂attribute ┃ ┣📄IEntityAttribute.java interface ┃... </td>
+        </tr>
+        
+     
+   
+    
+        
+     
+        
+
+        <tr><td><a href="dataattributes-1.18.1_attribute_functions.html">Attribute Functions</a></td>
+            <td><span class="label label-default">Page</span></td>
+          <td> Data Attributes introduces two entirely new ideas to Minecraft's entity attributes: functions and properties. This section covers attribute functions by pres... </td>
+        </tr>
+        
+     
+   
+    
+        
+     
+        
+
+        <tr><td><a href="dataattributes-1.18.1_attribute_properties.html">Attribute Properties</a></td>
+            <td><span class="label label-default">Page</span></td>
+          <td> Data Attributes introduces two entirely new ideas to Minecraft's entity attributes: functions and properties. This section covers attribute properties by pre... </td>
+        </tr>
+        
+     
+   
+    
+        
+     
+        
+
+        <tr><td><a href="dataattributes-1.18.1_datapacks.html">Datapacks</a></td>
+            <td><span class="label label-default">Page</span></td>
+          <td> This section provides an overview of the datapack structure used by Data Attributes for Minecraft 1.18.1. </td>
+        </tr>
+        
+     
+   
+    
+        
+     
+        
+
+        <tr><td><a href="dataattributes-1.18.1_entity_types.html">Entity Types</a></td>
+            <td><span class="label label-default">Page</span></td>
+          <td> This section covers how to add attributes to specific entity types, how to set the attribute's default values for that entity and how the json that does this... </td>
+        </tr>
+        
+     
+   
+    
+        
+     
+        
+     
+        
+     
+        
+
+        <tr><td><a href="dataattributes-1.18.1_home.html">Home</a></td>
+            <td><span class="label label-default">Page</span></td>
+          <td> Data Attributes is a Minecraft mod, initially released for Minecraft 1.17.1 using the Fabric ecosystem. The mod does two things: overhauls Minecraft's entity... </td>
+        </tr>
+        
+     
+   
+    
+        
+     
+        
+
+        <tr><td><a href="dataattributes-1.18.1_overrides.html">Overrides</a></td>
+            <td><span class="label label-default">Page</span></td>
+          <td> Json overrides can be used to either override pre-existing attributes, either vanilla or modded, or if non-existant a new attribute is created. Therefore, ne... </td>
+        </tr>
+        
+     
+   
+    
+        
+     
+        
+
+        <tr><td><a href="dataattributes-1.18.1_stacking_behaviour.html">Stacking Behaviour</a></td>
+            <td><span class="label label-default">Page</span></td>
+          <td> This section covers Stacking Behaviour, including: what it means; what it does; and how it's different from previous releases. </td>
+        </tr>
+        
+     
+   
+    
+        
+     
+        
+     
+        
+     
+        
+     
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+        
+     
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+        
+     
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+        
+     
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+        
+     
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+        
+     
+        
+     
+        
+     
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+        
+     
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+        
+     
+        
+     
+        
+     
+   
+    
+   
+    
+        
+     
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+        
+
+        <tr><td><a href="opc-1.18.1_api.html">API</a></td>
+            <td><span class="label label-default">Page</span></td>
+          <td>  Important: This section is now outdated and unsupported. Click here for the latest release. Structure and Overview Offline Player Cache offers a small API package, located at com.github.clevernucleus.opc.api and contains the following: 📂api ┣📄CacheableValue.java abstract class... </td>
+        </tr>
+        
+     
+   
+    
+        
+     
+        
+
+        <tr><td><a href="opc-1.18.1_cacheable_value.html">Cacheable Value</a></td>
+            <td><span class="label label-default">Page</span></td>
+          <td> This section details the content and implementation of the Cacheable Value abstract class from a developer perspective. </td>
+        </tr>
+        
+     
+   
+    
+        
+     
+        
+     
+        
+
+        <tr><td><a href="opc-1.18.1_home.html">Home</a></td>
+            <td><span class="label label-default">Page</span></td>
+          <td> Offline Player Cache (OPC) is a Minecraft API mod built using the Fabric framework to allow caching player data on the server while the player is offline. Th... </td>
+        </tr>
+        
+     
+   
+    
+        
+     
+        
+     
+        
+     
+        
+     
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+        
+     
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+        
+     
+        
+     
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+        
+     
+        
+     
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+        
+     
+        
+     
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+        
+     
+        
+     
+        
+     
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+        
+     
+        
+     
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+        
+     
+        
+     
+        
+     
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+
+        
+        
+
+   </tbody>
+</table>
+
+:ET

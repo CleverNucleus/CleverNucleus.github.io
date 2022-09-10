@@ -1,0 +1,142 @@
+I"d<p><img src="https://github.com/CleverNucleus/PlayerEx/blob/master/img/logo.png?raw=true" alt="PlayerEx" height="50%" /></p>
+
+<p><img src="https://img.shields.io/github/license/CleverNucleus/PlayerEx?style=flat-square&amp;color=367DBB" alt="License" />
+<img src="https://img.shields.io/badge/dynamic/json?color=EC1F52&amp;label=Applicable Versions&amp;prefix=%20&amp;query=2.releases&amp;url=https://raw.githubusercontent.com/CleverNucleus/PlayerEx/master/versions.json&amp;style=flat-square" alt="Applicable Versions" /></p>
+
+<h2 id="welcome">Welcome</h2>
+
+<p>This wiki covers the following:</p>
+
+<ul>
+  <li>Adding PlayerEx to your project.</li>
+  <li>The in-game content PlayerEx provides.</li>
+  <li>TextPlaceholderAPI and included placeholders.</li>
+  <li>FAQ, examples and mini-tutorials</li>
+  <li>API contents and usage.</li>
+</ul>
+
+<h2 id="integrating-playerex">Integrating PlayerEx</h2>
+
+<p>PlayerEx has a <a href="https://www.curseforge.com/minecraft/mc-mods/playerex">Curseforge</a> and <a href="https://modrinth.com/mod/playerex">Modrinth</a> page. To add PlayerEx to your project, insert the following into your <code class="language-plaintext highlighter-rouge">build.gradle</code>:</p>
+
+<ul id="profileTabs" class="nav nav-tabs">
+    <li class="active"><a href="#modrinth" data-toggle="tab">Modrinth</a></li>
+    <li><a href="#curseforge" data-toggle="tab">Curseforge</a></li>
+</ul>
+<div class="tab-content">
+<div role="tabpanel" class="tab-pane active" id="modrinth">
+
+
+<figure class="highlight"><pre><code class="language-gradle" data-lang="gradle"><span class="k">repositories</span> <span class="o">{</span>
+    <span class="n">maven</span> <span class="o">{</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s2">"Modrinth"</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s2">"https://api.modrinth.com/maven"</span>
+        <span class="n">content</span> <span class="o">{</span>
+            <span class="n">includeGroup</span> <span class="s2">"maven.modrinth"</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+
+
+<figure class="highlight"><pre><code class="language-gradle" data-lang="gradle"><span class="k">dependencies</span> <span class="o">{</span>
+    <span class="n">modImplementation</span> <span class="s2">"maven.modrinth:playerex:&lt;version&gt;"</span>
+<span class="o">}</span></code></pre></figure>
+
+
+</div>
+<div role="tabpanel" class="tab-pane" id="curseforge">
+
+
+<figure class="highlight"><pre><code class="language-gradle" data-lang="gradle"><span class="k">repositories</span> <span class="o">{</span>
+    <span class="n">maven</span> <span class="o">{</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s2">"Curseforge"</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s2">"https://www.cursemaven.com"</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+
+
+<figure class="highlight"><pre><code class="language-gradle" data-lang="gradle"><span class="k">dependencies</span> <span class="o">{</span>
+    <span class="n">modImplementation</span> <span class="s2">"curse.maven:playerex-409221:&lt;fileId&gt;"</span>
+<span class="o">}</span></code></pre></figure>
+
+
+The last number after the colon refers to the file id; you should always try to use the latest file.
+
+</div>
+</div>
+
+<div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> <b>Note:</b> PlayerEx has multiple dependencies, so your <code class="language-plaintext highlighter-rouge">build.gradle</code> must accommodate this.</div>
+
+<h3 id="dependencies">Dependencies</h3>
+
+<p>PlayerEx requires the following depdencies:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Dependency</th>
+      <th style="text-align: left">Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><a href="https://github.com/FabricMC/fabric">Fabric API</a></td>
+      <td style="text-align: left">Required by other dependencies and for certain events.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="https://github.com/CleverNucleus/Data-Attributes">Data Attributes</a></td>
+      <td style="text-align: left">Provides the core attribute system and attribute configurability.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="https://github.com/OnyxStudios/Cardinal-Components-API">Cardinal Components API</a> (Base &amp; Entity)</td>
+      <td style="text-align: left">A jar-in-jar dependency that provides player attribute modifiers.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="https://github.com/shedaniel/cloth-config">Cloth Config API</a></td>
+      <td style="text-align: left">Provides configurability.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="https://github.com/CleverNucleus/Offline-Player-Cache">Offline Player Cache</a></td>
+      <td style="text-align: left">A jar-in-jar dependency that provides TextPlaceholderAPI with persistent player data.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="https://github.com/Patbox/TextPlaceholderAPI">Text Placeholder API</a></td>
+      <td style="text-align: left">A jar-in-jar dependency that provides text placeholders, namely for custom multiplayer leaderboards.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="https://www.objecthunter.net/exp4j/">exp4j</a></td>
+      <td style="text-align: left">A jar-in-jar dependency that provides levelling configurability, namely an expression parser.</td>
+    </tr>
+  </tbody>
+</table>
+
+<figure class="highlight"><pre><code class="language-gradle" data-lang="gradle"><span class="k">repositories</span> <span class="o">{</span>
+	<span class="n">mavenCentral</span><span class="o">()</span>
+	<span class="n">maven</span> <span class="o">{</span>
+		<span class="n">name</span> <span class="o">=</span> <span class="s2">"Ladysnake"</span>
+		<span class="n">url</span> <span class="o">=</span> <span class="s2">"https://ladysnake.jfrog.io/artifactory/mods"</span>
+	<span class="o">}</span>
+	<span class="n">maven</span> <span class="o">{</span>
+		<span class="n">name</span> <span class="o">=</span> <span class="s2">"Shedaniel"</span>
+		<span class="n">url</span> <span class="o">=</span> <span class="s2">"https://maven.shedaniel.me/"</span>
+	<span class="o">}</span>
+	<span class="n">maven</span> <span class="o">{</span>
+		<span class="n">name</span> <span class="o">=</span> <span class="s2">"TerraformersMC"</span>
+		<span class="n">url</span> <span class="o">=</span> <span class="s2">"https://maven.terraformersmc.com"</span>
+	<span class="o">}</span>
+	<span class="n">maven</span> <span class="o">{</span>
+		<span class="n">name</span> <span class="o">=</span> <span class="s2">"Nucleoid"</span>
+		<span class="n">url</span> <span class="o">=</span> <span class="s2">"https://maven.nucleoid.xyz/"</span>
+	<span class="o">}</span>
+	<span class="n">maven</span> <span class="o">{</span>
+		<span class="n">name</span> <span class="o">=</span> <span class="s2">"Modrinth"</span>
+		<span class="n">url</span> <span class="o">=</span> <span class="s2">"https://api.modrinth.com/maven"</span>
+		<span class="n">content</span> <span class="o">{</span>
+			<span class="n">includeGroup</span> <span class="s2">"maven.modrinth"</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+:ET

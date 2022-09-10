@@ -1,0 +1,48 @@
+I"-<h2 id="welcome">Welcome</h2>
+
+<p>This wiki was created to provide documentation for the mods that I build for Minecraft. It aims to be a more comprehensive knowledge base than Github’s wiki pages, and offers a cleaner solution to publishing release-dependent content.</p>
+
+<h2 id="structure">Structure</h2>
+
+<p>This wiki is structured such that each mod has a dedicated section that details them in their entirety. These are accessed through the main navigation bar at the top of the site. Once there, the different versions of the mod and its subdivisions can be traversed through the sidebar on the left.</p>
+
+<p>Each mod generally splits its content into two categories: gameplay and developer documentation. Where the latter tends to assume knowledge of the former, and broadly represents average player and modder use cases, respectively.</p>
+
+<h2 id="quick-links">Quick Links</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Link</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="dataattributes-1.18.2_datapacks">Datapack Format</a></td>
+      <td>Provides an overview of the datapack structure for Data Attributes/PlayerEx datapacks.</td>
+    </tr>
+    <tr>
+      <td><a href="playerex-1.18.2_content#attributes">PlayerEx Attributes</a></td>
+      <td>A list of all the attributes PlayerEx adds.</td>
+    </tr>
+    <tr>
+      <td><a href="playerex-1.18.2_content#config">PlayerEx Config</a></td>
+      <td>Shows a table of all PlayerEx configuration options.</td>
+    </tr>
+    <tr>
+      <td><a href="playerex-1.18.2_content#commands">PlayerEx Commands</a></td>
+      <td>All commands added by PlayerEx.</td>
+    </tr>
+    <tr>
+      <td><a href="playerex-1.18.2_faq">PlayerEx FAQ</a></td>
+      <td>Commonly asked questions such as how to customise the levelling formula and setting the max level.</td>
+    </tr>
+    <tr>
+      <td><a href="opc-1.18.2_home#commands">OPC Commands</a></td>
+      <td>This is usually asked when an admin wishes to remove a retired player’s cache from the server or scoreboard.</td>
+    </tr>
+  </tbody>
+</table>
+
+:ET

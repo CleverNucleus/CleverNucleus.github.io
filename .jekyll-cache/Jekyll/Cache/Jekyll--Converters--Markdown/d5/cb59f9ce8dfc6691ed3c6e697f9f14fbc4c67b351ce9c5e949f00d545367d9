@@ -1,0 +1,101 @@
+I"�<h2 id="overview">Overview</h2>
+
+<p>Stacking behaviour describes how attribute values add together. This is primarily a binary operator set as <code class="language-plaintext highlighter-rouge">FLAT</code> or <code class="language-plaintext highlighter-rouge">DIMINISHING</code>. Every attribute has a stacking behaviour.</p>
+
+<h3 id="1-the-problem">1. The Problem</h3>
+
+<p>Without context, stacking behaviour may at first seem like some arbitrary overcomplication that serves no real purpose. However, stacking behaviour aims to solve a problem that arises with increased attribute configurability.</p>
+
+<p>By default, attributes add together linearly; if the total value of the attribute exceeds its maximum, the value is simply clamped. This works for most cases in Minecraft, but by expanding the attributes system a new need is revealed: diminishing returns. This is a term given to attributes that when increased, increase nonlinearly and with respect to their maximum value (the limit). This is actually not a new concept - many games have diminishing returns with their attributes: Dota 2 with Evasion, for example.</p>
+
+<p>The goal is that when an attribute exists that has a maximum value (usually a value of 1, and usually percentage based), it can be desirable to have diminishing returns such that infinity can be added to the attribute and its value still not reach its limit.</p>
+
+<h3 id="2-the-solution">2. The Solution</h3>
+
+<p>Firstly, it is important to differentiate between the two subsets of diminishing returns: diminishing addition and diminishing stacking. The former is when no matter how great a value is added to the attributes, its value never reaches its limit, and furthermore the result is scaled depending on how great the addition was and how close to the limit the current value is. The latter is when two different sources of the same attribute are added, and the attributes value never reaches its limit.</p>
+
+<p>The difference is subtle, but it boils down to whether the addition was from multiple different sources or not. What are different sources? An example of different sources is Iron Boots providing +2 Armor, and an Iron Chestplate providing +6 Armor.</p>
+
+<div style="text-align: center">
+
+<figure><img class="docimage" src="images/diminishing_returns.png" alt="diminishing returns" style="max-width: 300px" /><figcaption>Diminishing addition always encompasses diminishing stacking, but the reverse is not true.</figcaption></figure>
+
+
+
+
+</div>
+
+<p>Secondly, the implementation of diminishing returns must be reversible and commutative. This means that the order in which multiple values are added should be irrelevant:</p>
+
+\[f(a,b)=f(b,a)\]
+
+<p>Reversibility here refers to how the addition function handles negative numbers. For example, given two numbers \(a\) and \(b\) add together to produce \(c\), either input subtracted from \(c\) should result in the other input. This may seem obvious at first, but this is actually a substantial hurdle in creating a working diminishing attributes system, as often the addition function cannot or does not consider negative numbers.</p>
+
+<div style="text-align: center">
+
+<figure><img class="docimage" src="images/stacking_behaviour.png" alt="stacking behaviour" style="max-width: 300px" /><figcaption>Adding a and b produces c, just as subtracting a from c produces b.</figcaption></figure>
+
+
+
+
+</div>
+
+<p>Thirdly, the implementation of diminishing returns can be very different. Indeed, this implementation has changed for every major version of Data Attributes.</p>
+
+<div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> <b>Note:</b> A limit of 1.0 has been assumed throughout this explanation.</div>
+
+<h2 id="changes-from-previous-releases">Changes from Previous Releases</h2>
+
+<p>The first release of Data Attributes included diminishing addition; however, the formula was non-reversible and not commutative. Because of this, the next update changed the system to use diminishing stacking only. This too, had its issues. While it worked as intended, the lack of diminishing addition was apparent and posed a problem. The advantage of the first system was that no matter how large any single value added was, it always scaled depending on the limit. Whereas with the second iteration this was only a feature with different sources of the attribute. The third iteration (of which you are presently reading) reimplemented finally diminishing addition, while maintaing reversibility and being commutative - finally!</p>
+
+<h2 id="behaviour">Behaviour</h2>
+
+<p>Stacking Behaviour is split into the following:</p>
+
+<h3 id="1-flat">1. FLAT</h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">FLAT</code> stacking behaviour describes normal addition and functions as:</p>
+
+\[a+b=r\]
+
+<p>Where \(a\) and \(b\) are the attribute values and \(r\) is the result. For example, you have an Iron Helmet that provides +2 armor and an Iron Chestplate that provides +6. When added together you get 8 armor:</p>
+
+\[2+6=8\]
+
+<h3 id="2-diminishing">2. DIMINISHING</h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">DIMINISHING</code> stacking behaviour describes a non-linear addition function, and only works for attributes with a minimum value of between -1 and 0 (all inclusive), and a maximum value of 1 (inclusive). This is primarily useful for percentage based attributes. The <em>exact</em> maths behind this is slightly complex, but it can be broadly summarised with the following equation:</p>
+
+\[(1-v_2)\times(1-m)^\frac{v-v_2}{m}-(1-k_2)\times(1-m)^\frac{k-k_2}{m}=r\]
+
+<p>Where \(r\) is the result; \(m\) is the attribute’s <a href="dataattributes-1.18.2_overrides.html#overview">increment value</a>; and \(v\), \(k\), \(v_2\) and \(k_2\) are as follows:</p>
+
+\[v=\sum_{}^{} |x|\;\;\{x&lt;0\}\]
+
+\[k=\sum_{}^{} |x|\;\;\{x&gt;0\}\]
+
+\[v_2=\max(|x|)\;\;\{x&lt;0\}\]
+
+\[k_2=\max(|x|)\;\;\{x&gt;0\}\]
+
+<div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> <b>Note:</b> \(v_2\) and \(k_2\) do not consider the attribute’s parent values.</div>
+
+<h4 id="21-example-1">2.1 Example 1</h4>
+
+<p>Let’s look at what happens when we have an Iron Helmet that provides +20% Evasion, an Iron Chestplate that provide +30% Evasion and a negative potion effect that gives -10% Evasion (an assumption we make is that Evasion’s minimum value is 0, maximum value is 1, and increment value is 0.01):</p>
+
+\[(1-0.1)\times(1-0.01)^\frac{0.1-0.1}{0.01}-(1-0.3)\times(1-0.01)^\frac{0.5-0.3}{0.01}=0.327\]
+
+<p>In other words, +30% +20% -10% Evasion yields +32.7% Evasion in total. One could also view it as +30% +20% Evasion yields +42.7% Evasion, and then -10% Evasion lowers it to +32.7% Evasion.</p>
+
+<h4 id="22-example-2">2.2 Example 2</h4>
+
+<p>Let’s also look at what happens to our Knockback Resistance wearing a full set of Netherite Armor if we change the stacking behaviour from <code class="language-plaintext highlighter-rouge">FLAT</code> to <code class="language-plaintext highlighter-rouge">DIMINISHING</code> (assuming that the minimum value is 0, maximum value is 1 and increment value is 0.01):</p>
+
+<p>Initially, a full set of Netherite Armor provides us with +0.4, or +40 Knockback Resistance. We know this is actually x4 0.1 Knockback Resistance modifiers.</p>
+
+\[(1-0)\times(1-0.01)^\frac{0-0}{0.01}-(1-0.1)\times(1-0.01)^\frac{0.4-0.1}{0.01}=0.334\]
+
+<p>So, where +10% +10% +10% +10% yielded +40%, it now yields +33.4% - a marked reduction. However, the benefit to gameplay here is that we can add as much Knockback Resistance as we want now without any individual source of the attribute becoming irrelevant.</p>
+
+:ET

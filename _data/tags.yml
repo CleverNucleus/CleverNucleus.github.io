@@ -1,0 +1,19 @@
+# Note:
+# If you are using the createtag script, don't leave a blank line at the end of this file.
+# In other words, the last line must be the last tag in the allowed-tags list.
+allowed-tags:
+  - introduction
+  - getting_started
+  - quick_links
+  - offline_player_cache
+  - data_attributes
+  - playerex
+  - api
+  - 1.17.1
+  - 1.18.1
+  - 1.18.2
+  - 1.19
+  - 1.19.1
+  - 1.19.2
+
+# Copyright 2021 Google LLC

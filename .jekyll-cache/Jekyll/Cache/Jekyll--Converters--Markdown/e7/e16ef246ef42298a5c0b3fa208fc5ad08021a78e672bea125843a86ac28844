@@ -1,0 +1,110 @@
+I"�2<div class="alert alert-warning" role="alert"><i class="fa fa-warning"></i> <b>Important:</b> This section is now outdated and unsupported. Click <a href="opc-1.18.2_home">here</a> for the latest release.</div>
+
+<h2 id="structure-and-overview">Structure and Overview</h2>
+
+<p>Offline Player Cache offers a small API package, located at <code class="language-plaintext highlighter-rouge">com.github.clevernucleus.opc.api</code> and contains the following:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>📂api
+ ┣📄CacheableValue.java abstract class
+ ┗📄PlayerCacheAPI.java class
+</code></pre></div></div>
+
+<p>The contents of <code class="language-plaintext highlighter-rouge">CacheableValue.java</code> are available <a href="opc-1.18.2_cacheable_value#structure">here</a>. The contents of <code class="language-plaintext highlighter-rouge">PlayerCacheAPI.java</code> are shown below:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modifiers and Type</th>
+      <th>Method/Field and Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">String</code></span></td>
+      <td><span id="redCode"><strong>MODID</strong></span><br />The mod id.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">CacheableValue&lt;T&gt;</code></span></td>
+      <td><span id="redCode"><strong>registerCacheableValue</strong>(<strong>CacheableValue&lt;T&gt;</strong> key)</span> <br />Gains access to the offline player cache object. This should only be used on the logical server.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">T</code></span></td>
+      <td><span id="redCode"><strong>get</strong>(<strong>MinecraftServer</strong> server, <strong>UUID</strong> uuid, <strong>CacheableValue&lt;T&gt;</strong> key)</span> <br />If the player is offline and exists in the cache, retrieves the last cached value. If the player is online, retrieves the player’s current value.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">T</code></span></td>
+      <td><span id="redCode"><strong>get</strong>(<strong>MinecraftServer</strong> server, <strong>String</strong> name, <strong>CacheableValue&lt;T&gt;</strong> key)</span> <br />If the player is offline and exists in the cache, retrieves the last cached value. If the player is online, retrieves the player’s current value.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">void</code></span></td>
+      <td><span id="redCode"><strong>uncacheValue</strong>(<strong>String</strong> name, <strong>CacheableValue&lt;T&gt;</strong> key)</span> <br />Removes the input value cached to the input player, if it exists.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">void</code></span></td>
+      <td><span id="redCode"><strong>uncachePlayer</strong>(<strong>UUID</strong> uuid)</span> <br />Removes the player who’s uuid this belongs to from the cache, if they exist.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">void</code></span></td>
+      <td><span id="redCode"><strong>uncachePlayer</strong>(<strong>String</strong> name)</span> <br />Removes the player who’s name this belongs to from the cache, if they exist.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">Collection&lt;String&gt;</code></span></td>
+      <td><span id="redCode"><strong>getPlayerNames</strong>(<strong>MinecraftServer</strong> server)</span> <br />Returns all offline/cached AND online players’ names.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">Collection&lt;UUID&gt;</code></span></td>
+      <td><span id="redCode"><strong>getPlayerIds</strong>(<strong>MinecraftServer</strong> server)</span> <br />Returns all offline/cached AND online players’ UUIDs.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="using-offline-player-cache">Using Offline Player Cache</h2>
+
+<p>This section will use the cacheable value implementation shown <a href="opc-1.18.2_cacheable_value#example-implementation">here</a> to further provide an example of how OPC could be used in a project:</p>
+
+<h3 id="1-registering-a-cacheable-value">1. Registering a Cacheable Value</h3>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">com.github.clevernucleus.opc.api.PlayerCacheAPI</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">net.fabricmc.api.ModInitializer</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ExampleMod</span> <span class="kd">implements</span> <span class="nc">ModInitializer</span> <span class="o">{</span>
+
+    <span class="c1">// Register our CurrentHealthValue from before.</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">CacheableValue</span><span class="o">&lt;</span><span class="nc">Float</span><span class="o">&gt;</span> <span class="no">CURRENT_HEALTH_VALUE</span> <span class="o">=</span> <span class="nc">PlayerCacheAPI</span>
+    <span class="o">.</span><span class="na">registerCacheableValue</span><span class="o">(</span><span class="k">new</span> <span class="nc">CurrentHealthValue</span><span class="o">());</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onInitialize</span><span class="o">()</span> <span class="o">{}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>That is all that is needed. Players will disconnect and their current health will be cached on the server, ready to be accessed at any time. An potential usage is with commands - in the next example, we create a new command: <code class="language-plaintext highlighter-rouge">/example health &lt;name&gt;</code>.</p>
+
+<h3 id="2-creating-a-command-with-opc">2. Creating a command with OPC</h3>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">register</span><span class="o">(</span><span class="nc">CommandDispatcher</span><span class="o">&lt;</span><span class="nc">ServerCommandSource</span><span class="o">&gt;</span> <span class="n">dispatcher</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">LiteralCommandNode</span><span class="o">&lt;</span><span class="nc">ServerCommandSource</span><span class="o">&gt;</span> <span class="n">exampleNode</span> <span class="o">=</span> <span class="nc">CommandManager</span>
+    <span class="o">.</span><span class="na">literal</span><span class="o">(</span><span class="s">"example"</span><span class="o">).</span><span class="na">build</span><span class="o">();</span>
+    <span class="n">dispatcher</span><span class="o">.</span><span class="na">getRoot</span><span class="o">().</span><span class="na">addChild</span><span class="o">(</span><span class="n">exampleNode</span><span class="o">);</span>
+    
+    <span class="nc">LiteralCommandNode</span><span class="o">&lt;</span><span class="nc">ServerCommandSource</span><span class="o">&gt;</span> <span class="n">currentHealthNode</span> <span class="o">=</span> <span class="nc">CommandManager</span>
+    <span class="o">.</span><span class="na">literal</span><span class="o">(</span><span class="s">"health"</span><span class="o">).</span><span class="na">build</span><span class="o">();</span>
+    <span class="n">exampleNode</span><span class="o">.</span><span class="na">addChild</span><span class="o">(</span><span class="n">currentHealthNode</span><span class="o">);</span>
+
+    <span class="nc">ArgumentCommandNode</span><span class="o">&lt;</span><span class="nc">ServerCommandSource</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="n">nameNode</span> <span class="o">=</span> <span class="nc">CommandManager</span>
+    <span class="o">.</span><span class="na">argument</span><span class="o">(</span><span class="s">"name"</span><span class="o">,</span> <span class="nc">StringArgumentType</span><span class="o">.</span><span class="na">string</span><span class="o">()).</span><span class="na">executes</span><span class="o">(</span><span class="n">ctx</span> <span class="o">-&gt;</span> <span class="o">{</span>
+        <span class="nc">MinecraftServer</span> <span class="n">server</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="na">getSource</span><span class="o">().</span><span class="na">getServer</span><span class="o">();</span>
+        <span class="nc">String</span> <span class="n">player</span> <span class="o">=</span> <span class="nc">StringArgumentType</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="n">ctx</span><span class="o">,</span> <span class="s">"name"</span><span class="o">);</span>
+        <span class="kt">float</span> <span class="n">health</span> <span class="o">=</span> <span class="nc">PlayerCacheAPI</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">server</span><span class="o">,</span> <span class="n">player</span><span class="o">,</span> <span class="nc">ExampleMod</span><span class="o">.</span><span class="na">CURRENT_HEALTH_VALUE</span><span class="o">);</span>
+        <span class="nc">LiteralText</span> <span class="n">msg</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LiteralText</span><span class="o">(</span><span class="n">player</span> <span class="o">+</span> <span class="s">"'s current health is: "</span> <span class="o">+</span> <span class="n">health</span><span class="o">);</span>
+
+        <span class="n">ctx</span><span class="o">.</span><span class="na">getSource</span><span class="o">.</span><span class="na">sendFeedback</span><span class="o">(</span><span class="n">msg</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+
+        <span class="k">return</span> <span class="mi">1</span><span class="o">;</span>
+    <span class="o">}).</span><span class="na">build</span><span class="o">();</span>
+    <span class="n">currentHealthNode</span><span class="o">.</span><span class="na">addChild</span><span class="o">(</span><span class="n">nameNode</span><span class="o">);</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>Using examples <a href="#1-registering-a-cacheable-value">1.</a> and <a href="#2-creating-a-command-with-opc">2.</a>, we have added the command <code class="language-plaintext highlighter-rouge">/example health &lt;name&gt;</code>. The output of which is <code class="language-plaintext highlighter-rouge">&lt;name&gt;'s health is: &lt;health&gt;</code>. You can now effectively get the current health of all online and offline players on your server. This is obviously a very simplistic example: usually you would also add a command node to take a UUID argument in addition to the player’s name; and you would have a suggestion provider to give you all player names/uuids.</p>
+
+:ET

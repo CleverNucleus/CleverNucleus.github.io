@@ -1,0 +1,56 @@
+I"�<div class="alert alert-warning" role="alert"><i class="fa fa-warning"></i> <b>Important:</b> This section is now outdated and unsupported. Click <a href="opc-1.18.2_home">here</a> for the latest release.</div>
+
+<p><img src="https://github.com/CleverNucleus/Offline-Player-Cache/blob/main/img/logo.png?raw=true" alt="Offline Player Cache" /></p>
+
+<p><img src="https://img.shields.io/github/license/CleverNucleus/Offline-Player-Cache?style=flat-square&amp;color=367DBB" alt="License" />
+<img src="https://img.shields.io/badge/dynamic/json?color=EC1F52&amp;label=Applicable Versions&amp;prefix=%20&amp;query=0.releases&amp;url=https://raw.githubusercontent.com/CleverNucleus/Offline-Player-Cache/main/versions.json&amp;style=flat-square" alt="Applicable Versions" /></p>
+
+<h2 id="welcome">Welcome</h2>
+
+<p>This wiki covers the following:</p>
+
+<ul>
+  <li>Specific Use cases for Offline Player Cache.</li>
+  <li>Accessing/Removing data with Commands.</li>
+  <li>Adding Offline Player Cache to your project.</li>
+  <li>Creating and using Cacheable Values.</li>
+  <li>API structure and usage.</li>
+</ul>
+
+<h2 id="specific-use-cases">Specific Use Cases</h2>
+
+<p>OPC is designed to be used in conjunction with other mods. By itself it adds no content. <a href="playerex-1.18.2_home">PlayerEx</a> uses it to cache players’ levels when they disconnect from a server, so that server leaderboards that display player levels are persistent and not dependent on who is online at the time of viewing. Similar to a ‘<a href="https://readyplayerone.fandom.com/wiki/Scoreboard" target="_blank"><em>Ready Player One</em></a>’ type situation - it would be odd if Parzival disappeard from the scoreboard every time he logged off. When the player logs back in, the cached value is removed and instead the real-time value is used.</p>
+
+<p>In the aforementioned case, it is only an integer that is cached/used. However, anything can be cached, so long as it can be read from/written to nbt data. Furthermore, this data is not synced across to the client, which means developers do not need to be as mindful of nbt size.</p>
+
+<p>It should be noted that the functionality provided by this mod relies on players being using legitimate accounts and not cracked versions, as their uuid/name must be valid for their data to be cached.</p>
+
+<h2 id="commands">Commands</h2>
+
+<p>OPC registers three commands to access and/or remove cached data:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">/opc get uuid|name &lt;uuid|name&gt; &lt;key&gt;</code> Returns the input uuid/name player’s value; if they are online, returns their current value, if they are offline returns their cached value. If the value is an <code class="language-plaintext highlighter-rouge">instanceof</code> <code class="language-plaintext highlighter-rouge">Number</code> and run from a command block, the redstone output is the absolute modulus of 16.</li>
+  <li><code class="language-plaintext highlighter-rouge">/opc remove uuid|name &lt;uuid|name&gt; &lt;key&gt;</code> If the input uuid/name player is offline, removes that player’s cached value determined by the input key; if the player is online, does nothing.</li>
+  <li><code class="language-plaintext highlighter-rouge">/opc remove uuid|name &lt;uuid|name&gt;</code> If the input uuid/name player is offline, removes all of their cached data; if the player is online, does nothing.</li>
+</ul>
+
+<h2 id="adding-opc-to-your-project">Adding OPC to your Project</h2>
+
+<p>This mod can be accessed from its <a href="https://github.com/CleverNucleus/Offline-Player-Cache" target="_blank">Github</a> repository, either by cloning and using a local maven repository via the <code class="language-plaintext highlighter-rouge">publishToMavenLocal</code> task, or by using <a href="https://jitpack.io/" target="_blank">JitPack</a>. The latter is used below to show how OPC can be added to your project. In your <code class="language-plaintext highlighter-rouge">build.gradle</code> include the following:</p>
+
+<figure class="highlight"><pre><code class="language-gradle" data-lang="gradle"><span class="k">repositories</span> <span class="o">{</span>
+    <span class="n">maven</span> <span class="o">{</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s2">"Jitpack"</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s2">"https://jitpack.io"</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-gradle" data-lang="gradle"><span class="k">dependencies</span> <span class="o">{</span>
+    <span class="n">modImplementation</span> <span class="s2">"com.github.CleverNucleus:Offline-Player-Cache:&lt;version&gt;"</span>
+    <span class="n">include</span> <span class="s2">"com.github.CleverNucleus:Offline-Player-Cache:&lt;version&gt;"</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>OPC is designed to be included in your project jar (jar-in-jar), so it is recommended to use <code class="language-plaintext highlighter-rouge">include</code>.</p>
+
+:ET

@@ -1,0 +1,47 @@
+I"<div class="alert alert-warning" role="alert"><i class="fa fa-warning"></i> <b>Important:</b> This section is now outdated and unsupported. Click <a href="dataattributes-1.18.2_home">here</a> for the latest release.</div>
+
+<h2 id="overview">Overview</h2>
+
+<p>An adding behaviour simply describes how two sources of an attribute will add together. Implemented with Data Attributes are <code class="language-plaintext highlighter-rouge">FLAT</code> and <code class="language-plaintext highlighter-rouge">DIMINISHING</code>, as follows:</p>
+
+<h3 id="1-flat">1. FLAT</h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">FLAT</code> adding behaviour describes normal addition and functions as:</p>
+
+\[a+b=r\]
+
+<p>Where \(a\) and \(b\) are the attribute values and \(r\) is the result. For example, you have an Iron Helmet that provides +2 armor and an Iron Chestplate that provides +6. When added together you get 8 armor:</p>
+
+\[2+6=8\]
+
+<h3 id="2-diminishing">2. DIMINISHING</h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">DIMINISHING</code> adding behaviour describes a non-linear addition function as:</p>
+
+\[c\frac{a+b}{a+c}=r\]
+
+<p>and for subtraction</p>
+
+\[a+b-\frac{a\cdot b}{c}=r\]
+
+<p>Where \(a\), \(b\), \(c\) and \(r\) are the current value, adding/subtracting value, maximum attribute value and result, respectively. Note how unlike <code class="language-plaintext highlighter-rouge">FLAT</code> addition, symmetry between arguments is no longer present i.e. \(a\) and \(b\) can no longer be interchanged and they no longer just represent two values, but rather the current and modifying value. Hence, the order of \(a\) and \(b\) are important. Also of note is the introduction of a third argument, \(c\), the maximum attribute value. This property allows the result to be scaled such that the maximum value can never truly be reached, hence the term diminishing.</p>
+
+<p>Using the same items as before (+2 armor Iron Helmet and +6 armor Iron Chestplate), lets see what the total armor becomes under a <code class="language-plaintext highlighter-rouge">DIMINISHING</code> behaviour:</p>
+
+\[30\times\frac{2+6}{30+6}=6.67\]
+
+<p>The result is greater than the largest argument (in this case the adding value), but smaller than the maximum value. It is also less than adding using <code class="language-plaintext highlighter-rouge">FLAT</code> behaviour. This behaviour can be useful for percentile attributes (evasion, for example) that only stay within the bounds 0 - 1.</p>
+
+<p>Some assumptions that we have made for this example:</p>
+
+<ul>
+  <li>The player <em>currently</em> has the +2 armor Iron Helmet equipped, and is in the process of equipping the +6 armor Iron Chestplate; in other words, 2 is the <em>current value</em> and 6 is the <em>adding value</em>.</li>
+  <li>The maximum value for armor is 30 (the vanilla default).</li>
+</ul>
+
+<h2 id="note">Note</h2>
+<p>All vanilla attributes have the <code class="language-plaintext highlighter-rouge">FLAT</code> adding behaviour by default. For the subtraction equation, we ensure that reversibility is maintained with the addition equation. That is to say that if \(a\) is the current value and \(b\) is the subtracting value, the equation takes the following form when considering the aforementioned example values:</p>
+
+\[6.67+(-6)-\frac{6.67\cdot (-6)}{30}=2\]
+
+:ET

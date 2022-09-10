@@ -1,0 +1,138 @@
+# This is your sidebar TOC. The sidebar code loops through sections here and provides the appropriate formatting.
+
+entries:
+- title: sidebar
+  product: Data Attributes
+  version: 
+  folders:
+
+  - title:
+    output: pdf
+    type: frontmatter
+    folderitems:
+    - title:
+      url: /titlepage.html
+      output: pdf
+      type: frontmatter
+    - title:
+      url: /tocpage.html
+      output: pdf
+      type: frontmatter
+
+  - title: 1.18.2+
+    output: web, pdf
+    folderitems:
+
+    - title: Home
+      url: /dataattributes-1.18.2_home.html
+      output: web, pdf
+      type: homepage
+
+    - title: Datapacks
+      url: /dataattributes-1.18.2_datapacks.html
+      output: web, pdf
+      type: homepage
+
+    - title: Stacking Behaviour
+      url: /dataattributes-1.18.2_stacking_behaviour.html
+      output: web, pdf
+      type: homepage
+
+    - title: Overrides
+      url: /dataattributes-1.18.2_overrides.html
+      output: web, pdf
+      type: homepage
+
+    - title: Entity Types
+      url: /dataattributes-1.18.2_entity_types.html
+      output: web, pdf
+      type: homepage
+
+    - title: Attribute Functions
+      url: /dataattributes-1.18.2_attribute_functions.html
+      output: web, pdf
+      type: homepage
+
+    - title: Attribute Properties
+      url: /dataattributes-1.18.2_attribute_properties.html
+      output: web, pdf
+      type: homepage
+
+    - title: API
+      url: /dataattributes-1.18.2_api.html
+      output: web, pdf
+      type: homepage
+
+  - title: 1.18.1
+    output: web, pdf
+    folderitems:
+
+    - title: Home
+      url: /dataattributes-1.18.1_home.html
+      output: web, pdf
+      type: homepage
+
+    - title: Datapacks
+      url: /dataattributes-1.18.1_datapacks.html
+      output: web, pdf
+
+    - title: Overrides
+      url: /dataattributes-1.18.1_overrides.html
+      output: web, pdf
+
+    - title: Stacking Behaviour
+      url: /dataattributes-1.18.1_stacking_behaviour.html
+      output: web, pdf
+
+    - title: Entity Types
+      url: /dataattributes-1.18.1_entity_types.html
+      output: web, pdf
+
+    - title: Attribute Functions
+      url: /dataattributes-1.18.1_attribute_functions.html
+      output: web, pdf
+
+    - title: Attribute Properties
+      url: /dataattributes-1.18.1_attribute_properties.html
+      output: web, pdf
+
+    - title: API
+      url: /dataattributes-1.18.1_api.html
+      output: web, pdf
+
+  - title: 1.17.1
+    output: web, pdf
+    folderitems:
+
+    - title: Home
+      url: /dataattributes-1.17.1_home.html
+      output: web, pdf
+      type: homepage
+
+    - title: Datapacks
+      url: /dataattributes-1.17.1_datapacks.html
+      output: web, pdf
+
+    - title: Overrides
+      url: /dataattributes-1.17.1_overrides.html
+      output: web, pdf
+
+    - title: Adding Behaviour
+      url: /dataattributes-1.17.1_adding_behaviour.html
+      output: web, pdf
+
+    - title: Entity Types
+      url: /dataattributes-1.17.1_entity_types.html
+      output: web, pdf
+
+    - title: Attribute Functions
+      url: /dataattributes-1.17.1_attribute_functions.html
+      output: web, pdf
+
+    - title: Attribute Properties
+      url: /dataattributes-1.17.1_attribute_properties.html
+      output: web, pdf
+
+    - title: API
+      url: /dataattributes-1.17.1_api.html
+      output: web, pdf

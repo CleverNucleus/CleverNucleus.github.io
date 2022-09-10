@@ -1,0 +1,321 @@
+I"�Q<div class="alert alert-warning" role="alert"><i class="fa fa-warning"></i> <b>Important:</b> This section is now outdated and unsupported. Click <a href="dataattributes-1.18.2_home">here</a> for the latest release.</div>
+
+<h2 id="structure-and-overview">Structure and Overview</h2>
+
+<p>Data Attributes includes an API package, located at <code class="language-plaintext highlighter-rouge">com.github.clevernucleus.dataattributes.api</code> and contains the following:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>📂api
+ ┣📂attribute
+ ┃ ┣📄AdditionFunction.java interface
+ ┃ ┣📄AttributeBehaviour.java enum
+ ┃ ┣📄AdditionFunction.java interface
+ ┃ ┣📄IAttribute.java interface
+ ┃ ┣📄IAttributeFunction.java interface
+ ┃ ┗📄IEntityAttributeModifier.java interface
+ ┃
+ ┣📂event
+ ┃ ┣📂client
+ ┃ ┃ ┗📄ClientSyncedEvent.java class
+ ┃ ┃
+ ┃ ┣📄EntityAttributeEvents.java class
+ ┃ ┣📄MathClampEvent.java class
+ ┃ ┗📄ServerSyncedEvent.java class
+ ┃
+ ┗📄API.java class
+</code></pre></div></div>
+
+<h2 id="api-content">API Content</h2>
+
+<p>The following subsections detail every method/field in each java class located in the <code class="language-plaintext highlighter-rouge">api</code> package.</p>
+
+<h3 id="1-attributeadditionfunctionjava">1. attribute.AdditionFunction.java</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modifiers and Type</th>
+      <th>Method/Field and Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">double</code></span></td>
+      <td><span id="redCode"><strong>add</strong>(<strong>double</strong> current, <strong>double</strong> adding, <strong>double</strong> limit)</span> <br />A functional interface equivalent to a TriFunction, used to add a layer of abstraction to function behaviours.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="2-attributeattributebehaviourjava">2. attribute.AttributeBehaviour.java</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modifiers and Type</th>
+      <th>Method/Field and Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">AttributeBehaviour</code></span></td>
+      <td><span id="redCode"><strong>FLAT</strong></span> <br />Flat/normal addition behaviour.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">AttributeBehaviour</code></span></td>
+      <td><span id="redCode"><strong>DIMINISHING</strong></span> <br />Diminishing addition behaviour.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">byte</code></span></td>
+      <td><span id="redCode"><strong>id</strong>()</span> <br />Returns the byte id of the behaviour enum.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">double</code></span></td>
+      <td><span id="redCode"><strong>result</strong>(<strong>double</strong> current, <strong>double</strong> adding, <strong>double</strong> limit)</span> <br />Returns the inputs through the correct function for the specific behaviour type.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">AttributeBehaviour</code></span></td>
+      <td><span id="redCode"><strong>fromId</strong>(<strong>byte</strong> id)</span> <br />Takes a byte id and returns the corresponding behaviour type.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="3-attributeiattributejava">3. attribute.IAttribute.java</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modifiers and Type</th>
+      <th>Method/Field and Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">double</code></span></td>
+      <td><span id="redCode"><strong>getDefaultValue</strong>()</span> <br />Returns the attribute’s default value.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">double</code></span></td>
+      <td><span id="redCode"><strong>getMinValue</strong>()</span> <br />Returns the attribute’s minimum value.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">double</code></span></td>
+      <td><span id="redCode"><strong>getMaxValue</strong>()</span> <br />Returns the attribute’s maximum value.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">double</code></span></td>
+      <td><span id="redCode"><strong>clamp</strong>(<strong>double</strong> value)</span> <br />For <code class="language-plaintext highlighter-rouge">EntityAttribute</code>, returns the input. For <code class="language-plaintext highlighter-rouge">ClampedEntityAttribute</code>, returns a clamped value between the min and max.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">String</code></span></td>
+      <td><span id="redCode"><strong>getTranslationKey</strong>()</span> <br />Returns the attribute’s translation key (references a lang json name).</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">Collection&lt;String&gt;</code></span></td>
+      <td><span id="redCode"><strong>properties</strong>()</span> <br />Returns an immutable collection of the properties’ keys attached to this attribute.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">boolean</code></span></td>
+      <td><span id="redCode"><strong>hasProperty</strong>(<strong>String</strong> property)</span> <br />Returns true if this attribute has the input property key; false if not, or if the input is null.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">String</code></span></td>
+      <td><span id="redCode"><strong>getProperty</strong>(<strong>String</strong> property)</span> <br />Returns this attribute’s property value assigned to the input property’s key. If it does not exist or is null, returns “”.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">Collection&lt;IAttributeFunction&gt;</code></span></td>
+      <td><span id="redCode"><strong>functions</strong>()</span> <br />Returns an immutable collection of the attribute functions attached to this attribute.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="4-attributeattributefunctionjava">4. attribute.AttributeFunction.java</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modifiers and Type</th>
+      <th>Method/Field and Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">Identifier</code></span></td>
+      <td><span id="redCode"><strong>attribute</strong>()</span> <br />Returns the affected attribute’s registry key.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">AttributeBehaviour</code></span></td>
+      <td><span id="redCode"><strong>behaviour</strong>()</span> <br />Returns the affected attribute’s behaviour (if it uses flat or diminishing addition).</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">double</code></span></td>
+      <td><span id="redCode"><strong>multiplier</strong>()</span> <br />Returns a multiplier applied to the resulting change in value (e.g. for every one point changed in the parent attribute).</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="5-attributeientityattributemodifierjava">5. attribute.IEntityAttributeModifier.java</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modifiers and Type</th>
+      <th>Method/Field and Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">UUID</code></span></td>
+      <td><span id="redCode"><strong>getId</strong>()</span> <br />Returns the modifier’s uuid.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">String</code></span></td>
+      <td><span id="redCode"><strong>getName</strong>()</span> <br />Returns the modifier’s name.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">Operation</code></span></td>
+      <td><span id="redCode"><strong>getOperation</strong>()</span> <br />Returns the modifier’s operation.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">double</code></span></td>
+      <td><span id="redCode"><strong>getValue</strong>()</span> <br />Returns the modifier’s (mutable) value.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">void</code></span></td>
+      <td><span id="redCode"><strong>setValue</strong>(<strong>double</strong> value)</span> <br />Sets the value of the modifier.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="6-eventclientclientsyncedeventjava">6. event.client.ClientSyncedEvent.java</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modifiers and Type</th>
+      <th>Method/Field and Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">Event&lt;Synced&gt;</code></span></td>
+      <td><span id="redCode"><strong>EVENT</strong></span> <br />Provides a hook to the client, AFTER it has received server-side packets and synced all Data Attribute’s relevant data, but BEFORE the player exists (i.e. during login).</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">interface</code></span></td>
+      <td><span id="redCode"><strong>Synced</strong> {…}</span> <br />Nested functional interface for <code class="language-plaintext highlighter-rouge">EVENT</code> .</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="7-evententityattributeeventsjava">7. event.EntityAttributeEvents.java</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modifiers and Type</th>
+      <th>Method/Field and Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">Event&lt;AddedPre&gt;</code></span></td>
+      <td><span id="redCode"><strong>MODIFIER_ADDED_PRE</strong></span> <br />Fired before an <code class="language-plaintext highlighter-rouge">EntityAttributeModifier</code> is added to an <code class="language-plaintext highlighter-rouge">EntityAttributeInstance</code>.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">Event&lt;AddedPost&gt;</code></span></td>
+      <td><span id="redCode"><strong>MODIFIER_ADDED_POST</strong></span> <br />Fired after an <code class="language-plaintext highlighter-rouge">EntityAttributeModifier</code> is added to an <code class="language-plaintext highlighter-rouge">EntityAttributeInstance</code>.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">Event&lt;RemovedPre&gt;</code></span></td>
+      <td><span id="redCode"><strong>MODIFIER_REMOVED_PRE</strong></span> <br />Fired before an <code class="language-plaintext highlighter-rouge">EntityAttributeModifier</code> is removed from an <code class="language-plaintext highlighter-rouge">EntityAttributeInstance</code>.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">Event&lt;RemovedPost&gt;</code></span></td>
+      <td><span id="redCode"><strong>MODIFIER_REMOVED_POST</strong></span> <br />Fired after an <code class="language-plaintext highlighter-rouge">EntityAttributeModifier</code> is removed from an <code class="language-plaintext highlighter-rouge">EntityAttributeInstance</code>.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">interface</code></span></td>
+      <td><span id="redCode"><strong>AddedPre</strong> {…}</span> <br />Nested functional interface for <code class="language-plaintext highlighter-rouge">MODIFIER_ADDED_PRE</code> .</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">interface</code></span></td>
+      <td><span id="redCode"><strong>AddedPost</strong> {…}</span> <br />Nested functional interface for <code class="language-plaintext highlighter-rouge">MODIFIER_ADDED_POST</code> .</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">interface</code></span></td>
+      <td><span id="redCode"><strong>RemovedPre</strong> {…}</span> <br />Nested functional interface for <code class="language-plaintext highlighter-rouge">MODIFIER_REMOVED_PRE</code> .</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">interface</code></span></td>
+      <td><span id="redCode"><strong>RemovedPost</strong> {…}</span> <br />Nested functional interface for <code class="language-plaintext highlighter-rouge">MODIFIER_REMOVED_POST</code> .</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="8-eventmathclampjava">8. event.MathClamp.java</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modifiers and Type</th>
+      <th>Method/Field and Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">Event&lt;Clamp&gt;</code></span></td>
+      <td><span id="redCode"><strong>EVENT</strong></span> <br />Fired on <code class="language-plaintext highlighter-rouge">EntityAttribute#clamp</code> and on <code class="language-plaintext highlighter-rouge">ClampedEntityAttribute#clamp</code> but before <code class="language-plaintext highlighter-rouge">MathHelper#clamp</code> is called.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">interface</code></span></td>
+      <td><span id="redCode"><strong>Clamp</strong> {…}</span> <br />Nested functional interface for <code class="language-plaintext highlighter-rouge">EVENT</code> .</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="9-eventserversyncedeventjava">9. event.ServerSyncedEvent.java</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modifiers and Type</th>
+      <th>Method/Field and Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">Event&lt;Synced&gt;</code></span></td>
+      <td><span id="redCode"><strong>EVENT</strong></span> <br />Provides a hook to the server, AFTER it has sent packets to the client and synced all Data Attribute’s relevant data, but BEFORE the player exists (i.e. during login).</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">interface</code></span></td>
+      <td><span id="redCode"><strong>Synced</strong> {…}</span> <br />Nested functional interface for <code class="language-plaintext highlighter-rouge">EVENT</code> .</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="10-apijava">10. API.java</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modifiers and Type</th>
+      <th>Method/Field and Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">String</code></span></td>
+      <td><span id="redCode"><strong>MODID</strong></span> <br />The modid for Data Attributes.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">Supplier&lt;EntityAttribute&gt;</code></span></td>
+      <td><span id="redCode"><strong>getAttribute</strong>(<strong>Identifier</strong> attributeKey)</span> <br />Returns a <code class="language-plaintext highlighter-rouge">Supplier</code> getting the registered attribute assigned to the input key. Uses a supplier because attributes added through json are null until datapacks are loaded/synced to the client, so static initialisation would not work.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">double</code></span></td>
+      <td><span id="redCode"><strong>add</strong>(<strong>double</strong> current, <strong>double</strong> adding, <strong>double</strong> limit)</span> <br />Adds or subtracts the input values, with diminishing returns tending towards the limit.</td>
+    </tr>
+  </tbody>
+</table>
+
+:ET

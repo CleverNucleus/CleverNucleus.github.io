@@ -1,0 +1,503 @@
+I"~#<p>The following pages and posts are tagged with <button type="button" style="cursor: default" class="btn btn-default navbar-btn">1.18.2</button></p>
+<table><thead><tr><th>Title</th><th>Type</th><th>Excerpt</th></tr></thead>
+    <tbody>
+    
+  
+    
+   
+    
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+        
+
+        <tr><td><a href="dataattributes-1.18.2_api.html">API</a></td>
+            <td><span class="label label-default">Page</span></td>
+          <td> Structure and Overview Data Attributes includes an API package, located at com.github.clevernucleus.dataattributes.api and contains the following: 📂api ┣📂attribute ┃ ┣📄IEntityAttribute.java interface ┃ ┣📄IEntityAttributeInstance.java interface ┃ ┣📄IItemEntityAttributeModifiers.java interface ┃ ┣📄StackingBehaviour.java enum ┃ ┗📄StackingFunction.java interface ┃ ┣📂event ┃ ┣📄EntityAttributeModifiedEvents.java class ┃ ┗📄AttributesReloadedEvent.java class ┃ ┣📂item... </td>
+        </tr>
+        
+     
+        
+     
+        
+     
+        
+     
+   
+    
+        
+     
+        
+
+        <tr><td><a href="dataattributes-1.18.2_attribute_functions.html">Attribute Functions</a></td>
+            <td><span class="label label-default">Page</span></td>
+          <td> Data Attributes introduces two entirely new ideas to Minecraft's entity attributes: functions and properties. This section covers attribute functions by pres... </td>
+        </tr>
+        
+     
+        
+     
+        
+     
+        
+     
+   
+    
+        
+     
+        
+
+        <tr><td><a href="dataattributes-1.18.2_attribute_properties.html">Attribute Properties</a></td>
+            <td><span class="label label-default">Page</span></td>
+          <td> Data Attributes introduces two entirely new ideas to Minecraft's entity attributes: functions and properties. This section covers attribute properties by pre... </td>
+        </tr>
+        
+     
+        
+     
+        
+     
+        
+     
+   
+    
+        
+     
+        
+
+        <tr><td><a href="dataattributes-1.18.2_datapacks.html">Datapacks</a></td>
+            <td><span class="label label-default">Page</span></td>
+          <td> This section provides an overview of the datapack structure used by Data Attributes for Minecraft 1.18.2. </td>
+        </tr>
+        
+     
+        
+     
+        
+     
+        
+     
+   
+    
+        
+     
+        
+
+        <tr><td><a href="dataattributes-1.18.2_entity_types.html">Entity Types</a></td>
+            <td><span class="label label-default">Page</span></td>
+          <td> This section covers how to add attributes to specific entity types, how to set the attribute's default values for that entity and how the json that does this... </td>
+        </tr>
+        
+     
+        
+     
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+        
+     
+        
+
+        <tr><td><a href="dataattributes-1.18.2_home.html">Home</a></td>
+            <td><span class="label label-default">Page</span></td>
+          <td> Data Attributes is a Minecraft mod, initially released for Minecraft 1.17.1 using the Fabric ecosystem. The mod does two things: overhauls Minecraft's entity... </td>
+        </tr>
+        
+     
+        
+     
+        
+     
+        
+     
+   
+    
+        
+     
+        
+
+        <tr><td><a href="dataattributes-1.18.2_overrides.html">Overrides</a></td>
+            <td><span class="label label-default">Page</span></td>
+          <td> Json overrides can be used to either override pre-existing attributes, either vanilla or modded, or if non-existant a new attribute is created. Therefore, ne... </td>
+        </tr>
+        
+     
+        
+     
+        
+     
+        
+     
+   
+    
+        
+     
+        
+
+        <tr><td><a href="dataattributes-1.18.2_stacking_behaviour.html">Stacking Behaviour</a></td>
+            <td><span class="label label-default">Page</span></td>
+          <td> This section covers Stacking Behaviour, including: what it means; what it does; and how it's different from previous releases. </td>
+        </tr>
+        
+     
+        
+     
+        
+     
+        
+     
+   
+    
+   
+    
+        
+     
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+        
+
+        <tr><td><a href="opc-1.18.2_api.html">API</a></td>
+            <td><span class="label label-default">Page</span></td>
+          <td> Structure and Overview Offline Player Cache offers a small API package, located at com.github.clevernucleus.opc.api and contains the following: 📂api ┣📄CacheableValue.java interface ┗📄OfflinePlayerCache.java interface  The contents of CacheableValue.java are available here. The contents of OfflinePlayerCache.java are shown below:... </td>
+        </tr>
+        
+     
+        
+     
+        
+     
+        
+     
+   
+    
+        
+     
+        
+
+        <tr><td><a href="opc-1.18.2_cacheable_value.html">Cacheable Value</a></td>
+            <td><span class="label label-default">Page</span></td>
+          <td> This section details the content and implementation of the Cacheable Value interface from a developer perspective. </td>
+        </tr>
+        
+     
+        
+     
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+        
+
+        <tr><td><a href="opc-1.18.2_home.html">Home</a></td>
+            <td><span class="label label-default">Page</span></td>
+          <td> Offline Player Cache (OPC) is a Minecraft API mod built using the Fabric framework to allow caching player data on the server while the player is offline. Th... </td>
+        </tr>
+        
+     
+        
+     
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+        
+
+        <tr><td><a href="playerex-1.18.2_api.html">API</a></td>
+            <td><span class="label label-default">Page</span></td>
+          <td> Structure and Overview PlayerEx includes an API package, located at com.github.clevernucleus.playerex.api and contains the following: 📂api ┣📂client ┃ ┣📄ClientUtil.java class ┃ ┣📄PageLayer.java class ┃ ┣📄PageRegistry.java class ┃ ┗📄RenderComponent.java class ┃ ┣📂damage ┃ ┣📄DamageFunction.java interface ┃ ┗📄DamagePredicate.java interface ┃ ┣📂event ┃ ┣📄LivingEntityEvents.java class ┃... </td>
+        </tr>
+        
+     
+        
+     
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+        
+
+        <tr><td><a href="playerex-1.18.2_content.html">In-game Content</a></td>
+            <td><span class="label label-default">Page</span></td>
+          <td> PlayerEx adds new attributes to the game, that are by default attached to the player. Additionally, PlayerEx features a new GUI screen and levelling system. </td>
+        </tr>
+        
+     
+        
+     
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+        
+     
+        
+
+        <tr><td><a href="playerex-1.18.2_faq.html">FAQ</a></td>
+            <td><span class="label label-default">Page</span></td>
+          <td> This page goes over commonly asked questions and provides some examples and mini-tutorials. </td>
+        </tr>
+        
+     
+        
+     
+        
+     
+        
+     
+   
+    
+        
+     
+        
+     
+        
+
+        <tr><td><a href="playerex-1.18.2_home.html">Home</a></td>
+            <td><span class="label label-default">Page</span></td>
+          <td> PlayerEx is a Minecraft mod built using the Fabric ecosystem that adds RPG themed attributes to the game and the player. </td>
+        </tr>
+        
+     
+        
+     
+        
+     
+        
+     
+   
+    
+        
+     
+        
+
+        <tr><td><a href="playerex-1.18.2_textplaceholderapi.html">Text Placeholder API</a></td>
+            <td><span class="label label-default">Page</span></td>
+          <td> Since version 3.0.2, PlayerEx supports Text Placeholder API and includes three text placeholders. </td>
+        </tr>
+        
+     
+        
+     
+        
+     
+        
+     
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+
+        
+        
+
+   </tbody>
+</table>
+
+:ET

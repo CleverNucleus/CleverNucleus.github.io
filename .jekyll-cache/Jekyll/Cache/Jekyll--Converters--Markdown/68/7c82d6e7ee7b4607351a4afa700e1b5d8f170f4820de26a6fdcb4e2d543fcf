@@ -1,0 +1,73 @@
+I"v<div class="alert alert-warning" role="alert"><i class="fa fa-warning"></i> <b>Important:</b> This section is now outdated and unsupported. Click <a href="opc-1.18.2_home">here</a> for the latest release.</div>
+
+<h2 id="welcome">Welcome</h2>
+
+<p>The Cacheable Value is a type of key-wrapper hybrid. It serves to hold a generic type and provide a value of this type through a key-function map.</p>
+
+<h2 id="structure">Structure</h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">CacheableValue</code> abstract class accepts a generic argument that represents its data type. For example, <code class="language-plaintext highlighter-rouge">CacheableValue&lt;Integer&gt;</code> holds an integer value. The abstract class has the following methods, where <code class="language-plaintext highlighter-rouge">T</code> denotes its generic type:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modifiers and Type</th>
+      <th>Method/Field and Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">T</code></span></td>
+      <td><span id="redCode"><strong>get</strong>(<strong>ServerPlayerEntity</strong> player)</span> <br />When the player is online, gets the value from the player. When the player disconnects, this is used to cache the value on the server.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">T</code></span></td>
+      <td><span id="redCode"><strong>readFromNbt</strong>(<strong>NbtCompound</strong> tag)</span> <br />Reads the value from nbt.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">void</code></span></td>
+      <td><span id="redCode"><strong>writeToNbt</strong>(<strong>NbtCompound</strong> tag, <strong>Object</strong> value)</span> <br />Writes the value to nbt.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="example-implementation">Example Implementation</h2>
+
+<p>For every value or piece of data that a mod wishes to cache, they must create a new <code class="language-plaintext highlighter-rouge">CacheableValue</code> implementation. The following is an example:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">com.github.clevernucleus.opc.api.CacheableValue</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">net.minecraft.nbt.NbtCompound</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">net.minecraft.server.network.ServerPlayerEntity</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">net.minecraft.util.Identifier</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CurrentHealthValue</span> <span class="kd">extends</span> <span class="nc">CacheableValue</span><span class="o">&lt;</span><span class="nc">Float</span><span class="o">&gt;</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="nf">CurrentHealthValue</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="k">new</span> <span class="nc">Identifier</span><span class="o">(</span><span class="s">"opc:current_health"</span><span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Float</span> <span class="nf">get</span><span class="o">(</span><span class="nc">ServerPlayerEntity</span> <span class="n">player</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="o">(</span><span class="kt">float</span><span class="o">)</span><span class="n">player</span><span class="o">.</span><span class="na">getHealth</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Float</span> <span class="nf">readFromNbt</span><span class="o">(</span><span class="nc">NbtCompound</span> <span class="n">tag</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">tag</span><span class="o">.</span><span class="na">getFloat</span><span class="o">(</span><span class="s">"CurrentHealth"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">writeToNbt</span><span class="o">(</span><span class="nc">NbtCompound</span> <span class="n">tag</span><span class="o">,</span> <span class="nc">Object</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">tag</span><span class="o">.</span><span class="na">putFloat</span><span class="o">(</span><span class="s">"CurrentHealth"</span><span class="o">,</span> <span class="o">(</span><span class="nc">Float</span><span class="o">)</span><span class="n">value</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h3 id="notes">Notes</h3>
+
+<ul>
+  <li>Your <code class="language-plaintext highlighter-rouge">Identifier</code> that is present in the constructor should be of the form <code class="language-plaintext highlighter-rouge">modid:key</code>.</li>
+  <li>This implementation will cache players’ current health when they disconnect, and provide this value if they are offline, or the <em>current</em> current health if they are online.</li>
+  <li>You should try to ensure that the appropriate type is used in your generic. In the example above, <code class="language-plaintext highlighter-rouge">Float</code> is used because the return type of <code class="language-plaintext highlighter-rouge">player#getHealth</code> is <code class="language-plaintext highlighter-rouge">float</code>. Using <code class="language-plaintext highlighter-rouge">Integer</code> here would not be appropriate as you would lose data, and using <code class="language-plaintext highlighter-rouge">Double</code> here would also not be appropriate because the extra precision is not utilised.</li>
+</ul>
+
+:ET

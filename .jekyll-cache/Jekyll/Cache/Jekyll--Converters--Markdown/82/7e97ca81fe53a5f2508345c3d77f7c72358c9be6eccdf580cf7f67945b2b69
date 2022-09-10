@@ -1,0 +1,19 @@
+I"}<h2 id="structure">Structure</h2>
+
+<p>Data Attributes works using Minecraft’s data resource system. The file hierarchy for this is <code class="language-plaintext highlighter-rouge">data/namespace/attributes</code>. Where <code class="language-plaintext highlighter-rouge">namespace</code> is either the default <code class="language-plaintext highlighter-rouge">minecraft</code> or any given modid. By default, nothing exists in this directory, as all json data is optional. However, a fully populated directiory contains the files <code class="language-plaintext highlighter-rouge">entity_types.json</code>, <code class="language-plaintext highlighter-rouge">functions.json</code>, <code class="language-plaintext highlighter-rouge">properties.json</code> and <code class="language-plaintext highlighter-rouge">/overrides/</code> (which is a folder). This takes the form shown below:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>📂data
+ ┗📂&lt;namespace&gt;
+   ┗📂attributes
+     ┣📂overrides
+     ┃ ┣📄attribute_name.json
+     ┃ ┗...
+     ┃
+     ┣📄entity_types.json
+     ┣📄functions.json
+     ┗📄properties.json
+</code></pre></div></div>
+
+<p>Before creating a datapack with Data Attributes, or using Data Attributes as a mod dependency, please familiarise yourself with <a href="dataattributes-1.18.2_overrides">Overrides</a>, <a href="dataattributes-1.18.2_entity_types">Entity Types</a>, <a href="dataattributes-1.18.2_attribute_functions">Attribute Functions</a> and <a href="dataattributes-1.18.2_attribute_properties">Attribute Properties</a>.</p>
+
+:ET

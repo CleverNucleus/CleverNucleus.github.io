@@ -1,0 +1,41 @@
+I"­	<div class="alert alert-warning" role="alert"><i class="fa fa-warning"></i> <b>Important:</b> This section is now outdated and unsupported. Click <a href="dataattributes-1.18.2_home">here</a> for the latest release.</div>
+
+<p><img src="https://github.com/CleverNucleus/Data-Attributes/blob/main/img/logo.png?raw=true" alt="Data Attributes" /></p>
+
+<p><img src="https://img.shields.io/github/license/CleverNucleus/Data-Attributes?style=flat-square&amp;color=367DBB" alt="License" />
+<img src="https://img.shields.io/badge/dynamic/json?color=EC1F52&amp;label=Applicable Versions&amp;prefix=%20&amp;query=1.releases&amp;url=https://raw.githubusercontent.com/CleverNucleus/Data-Attributes/main/versions.json&amp;style=flat-square" alt="Applicable Versions" /></p>
+
+<h2 id="welcome">Welcome</h2>
+
+<p>This wiki covers the following:</p>
+
+<ul>
+  <li>Using Data Attributes as a dependency for your mod (Gradle).</li>
+  <li>Changing attributeâ€™s default, minimum and maximum values, as well as their translation key.</li>
+  <li>Adding new attributes.</li>
+  <li>Modifying the contents of living entities attribute containers.</li>
+  <li>Attribute Functions.</li>
+  <li>Attribute Properties.</li>
+  <li>Relevant Json formatting.</li>
+  <li>API structure and usage.</li>
+</ul>
+
+<h2 id="integrating-data-attributes">Integrating Data Attributes</h2>
+
+<p>Data Attributes can be added to your project inserting the following to your <code class="language-plaintext highlighter-rouge">build.gradle</code>:</p>
+
+<figure class="highlight"><pre><code class="language-gradle" data-lang="gradle"><span class="k">repositories</span> <span class="o">{</span>
+    <span class="n">maven</span> <span class="o">{</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s2">"https://www.cursemaven.com"</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-gradle" data-lang="gradle"><span class="k">dependencies</span> <span class="o">{</span>
+    <span class="n">modImplementation</span> <span class="s2">"curse.maven:dataattributes-514734:&lt;fileId&gt;"</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>The last number after the colon refers to the file id; you should always try to use the latest file.</p>
+
+<p>Please note that Data Attributes depends on Fabric API, so your <code class="language-plaintext highlighter-rouge">build.gradle</code> will have to accommodate that.</p>
+
+:ET

@@ -1,0 +1,32 @@
+I"Ü
+<div class="alert alert-warning" role="alert"><i class="fa fa-warning"></i> <b>Important:</b> This section is now outdated and unsupported. Click <a href="dataattributes-1.18.2_home">here</a> for the latest release.</div>
+
+<h2 id="overview">Overview</h2>
+
+<p>Stacking Behaviour is a reworked implementation of the 1.17.x <a href="dataattributes-1.17.1_adding_behaviour.html">Adding Behaviour</a> that was utilised when defining <a href="dataattributes-1.17.1_attribute_functions.html">Attribute Functions</a>, using the <code class="language-plaintext highlighter-rouge">behaviour</code> tag. Instead of defining this property as an attribute function however, it now serves as an attribute-specific instruction on addition from different sources. That is to say, how do different sources of an attribute stack up?</p>
+
+<h3 id="1-flat">1. FLAT</h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">FLAT</code> stacking behaviour describes normal addition and functions as:</p>
+
+\[a+b=r\]
+
+<p>Where \(a\) and \(b\) are the attribute values and \(r\) is the result. For example, you have an Iron Helmet that provides +2 armor and an Iron Chestplate that provides +6. When added together you get 8 armor:</p>
+
+\[2+6=8\]
+
+<h3 id="2-diminishing">2. DIMINISHING</h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">DIMINISHING</code> stacking behaviour describes a non-linear addition function, and only works for attributes with a minimum value of between -1 and 0, and a maximum value of 1 (e.g. percentage based attributes would tend to use this). The <em>exact</em> maths behind this is slightly complex, but it can be broadly summarised as the following:</p>
+
+\[1-((1-x_1)\times(1-x_2)\times\cdots(1-x_n))=r\]
+
+<p>Where \(x_1\), \(x_2\) and \(x_n\) are source 1, source 2 and source n, respectively. For example, you have an Iron Helmet that provides +20% Evasion and an Iron Chestplate that provides +30% Evasion. When added together you would expect 50% Evasion with normal <code class="language-plaintext highlighter-rouge">FLAT</code> addition, but with <code class="language-plaintext highlighter-rouge">DIMINISHING</code> you get 44% Evasion:</p>
+
+\[1-((1-0.2)\times(1-0.3))=0.44\]
+
+<h2 id="subtraction">Subtraction</h2>
+
+<p>How subtraction works is much the same, but values are instead treated as absolute and the result is subtracted from the positive result (above). It should be noted that while this is greate for attributes with a range of 0% - 100%, or -100% to 100%, you have to change the precision of your attributeâ€™s value to deatl with percentages above 100%. For example, if you wanted a critical strike damage attribute that went from 0% - 500%, you would use attribute values of 0 - 0.5, and then multiply the results accordingly.</p>
+
+:ET

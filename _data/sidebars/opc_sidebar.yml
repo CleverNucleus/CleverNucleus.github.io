@@ -1,0 +1,54 @@
+# This is your sidebar TOC. The sidebar code loops through sections here and provides the appropriate formatting.
+
+entries:
+- title: sidebar
+  product: Offline Player Cache
+  version: 
+  folders:
+
+  - title:
+    output: pdf
+    type: frontmatter
+    folderitems:
+    - title:
+      url: /titlepage.html
+      output: pdf
+      type: frontmatter
+    - title:
+      url: /tocpage.html
+      output: pdf
+      type: frontmatter
+
+  - title: 1.18.2
+    output: web, pdf
+    folderitems:
+
+    - title: Home
+      url: /opc-1.18.2_home.html
+      output: web, pdf
+      type: homepage
+
+    - title: Cacheable Value
+      url: /opc-1.18.2_cacheable_value.html
+      output: web, pdf
+
+    - title: API
+      url: /opc-1.18.2_api.html
+      output: web, pdf
+
+  - title: 1.18.1
+    output: web, pdf
+    folderitems:
+
+    - title: Home
+      url: /opc-1.18.1_home.html
+      output: web, pdf
+      type: homepage
+
+    - title: Cacheable Value
+      url: /opc-1.18.1_cacheable_value.html
+      output: web, pdf
+
+    - title: API
+      url: /opc-1.18.1_api.html
+      output: web, pdf

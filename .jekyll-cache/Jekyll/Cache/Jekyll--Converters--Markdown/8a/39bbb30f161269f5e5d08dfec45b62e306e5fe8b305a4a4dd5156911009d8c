@@ -1,0 +1,90 @@
+I"�+<div class="alert alert-warning" role="alert"><i class="fa fa-warning"></i> <b>Important:</b> This section is now outdated and unsupported. Click <a href="dataattributes-1.18.2_home">here</a> for the latest release.</div>
+
+<h2 id="overview">Overview</h2>
+
+<p>Attribute functions allow you to relate attributes to each other in a way that is common in other games: Dota 2 has the primary attributes Strength, Agility and Intelligence - where Strength increases the health pool, Agility increases armor and Intelligence increases Mana. PoE is much the same, where Strength increases maximum life, Dexterity grants Evasion and Intelligence also increases Mana.</p>
+
+<p>The implementation of attribute finctions is out of the scope of this wiki, but basically each attribute now has a collection of children and parent attributes. When defining an attribute function, you define an entity attribute (the parent) and assign to it a list of other attributes (children). The resulting behaviour in-game is that whenever the value of a parent attribute changes, the value of all its children changes as well.</p>
+
+<div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> <b>Note:</b> This is one-directional, a change in the value of a child does not impact the value of its parents.</div>
+
+<h2 id="why-do-we-need-attribute-functions">Why do we need Attribute Functions</h2>
+
+<p>The premise for this questions resides in a commonly found aspect of RPGs. Often, their attribute systems are structured with a few primary attributes (think Constitution, Strength, Dexterity for example) and then secondary attributes (think Max Health, Damage, Evasion for example). Increasing the value of a primary attribute increases the value of secondary attributes as well.</p>
+
+<h3 id="1-the-problem">1. The Problem</h3>
+
+<p>Lets say we have a Minecraft mod that provides this RPG-type attribute system, and there is a nice screen with buttons that let you skill/increase those primary attributes. In code, we may have a method similar to <code class="language-plaintext highlighter-rouge">Button#addAttribute</code>; we would pass the attribute to increase and the amount to increase it by as arguments:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kt">void</span> <span class="nf">onButtonClick</span><span class="o">(</span><span class="nc">Button</span> <span class="n">button</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">button</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="nc">Attributes</span><span class="o">.</span><span class="na">CONSTITUTION</span><span class="o">,</span> <span class="mf">1.0</span><span class="o">);</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>This is actually fine so far; there is nothing wrong with doing it this way. However, things get cumbersome when we implement follow-on attributes. Say for every one point in Constitution, we increase our Max Health by one, Knockback Resistance by 0.01 and Damage by 0.5:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kt">void</span> <span class="nf">onButtonClick</span><span class="o">(</span><span class="nc">Button</span> <span class="n">button</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">button</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="nc">Attributes</span><span class="o">.</span><span class="na">CONSTITUTION</span><span class="o">,</span> <span class="mf">1.0</span><span class="o">);</span>
+    <span class="n">button</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="nc">Attributes</span><span class="o">.</span><span class="na">MAX_HEALTH</span><span class="o">,</span> <span class="mf">1.0</span><span class="o">);</span>
+    <span class="n">button</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="nc">Attributes</span><span class="o">.</span><span class="na">KNOCKBACK_RESISTANCE</span><span class="o">,</span> <span class="mf">0.01</span><span class="o">);</span>
+    <span class="n">button</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="nc">Attributes</span><span class="o">.</span><span class="na">DAMAGE</span><span class="o">,</span> <span class="mf">0.5</span><span class="o">);</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>This is not great. Furthermore, what happens when someone uses the <code class="language-plaintext highlighter-rouge">/attribute</code> command to increase their Constitution? Or equips an item that increases their Constitution? Or what happens when a player wants to customise what attributes are changed when Constitution is changed? What about configurability? We have to create unwieldy repetitons everywhere any kind of attribute modifying code occurs. It is not feasible to do this.</p>
+
+<h3 id="2-the-solution">2. The Solution</h3>
+
+<p>The solution is described briefly in the <a href="#overview">Overview</a>: we denominate our attributes as either the parent or child; to the parent, we attach a collection of references to its children; and to the child, we attach a collection of references to its parents.</p>
+
+<div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> <b>Note:</b> Denominations of child and parent are not mutually exclusive. A parent attribute can be a child to another attribute, just as a child attribute can be a parent to another attribute.</div>
+
+<h2 id="examples">Examples</h2>
+
+<p>The concept of attribute functions is best explained using examples and scenarios:</p>
+
+<h3 id="1-example-1">1. Example 1</h3>
+
+<p>Say the player has the attribute Constitution; and for every point added in this attribute, a point is also added to Max Health. This would be done using an attribute function. Functions allow for attributes to influence each other.</p>
+
+<h3 id="2-example-2">2. Example 2</h3>
+
+<p>Using <a href="#1-example-1">Example 1</a> as a reference, this example shows how we might implement it. Say we have our examplemod, and we’ve added the attribute Constitution, but now we want to make it so that for every point added to Constituion, a point is added to Max Health and half a point is added to Armor.</p>
+
+<p>We go to the directory <code class="language-plaintext highlighter-rouge">data/examplemod/attributes/</code> where we create the json file <code class="language-plaintext highlighter-rouge">functions.json</code>. Inside this file, we add the following:</p>
+
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+    </span><span class="nl">"values"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"examplemod:constitution"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"minecraft:generic.max_health"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"minecraft:generic.armor"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.5</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span></code></pre></figure>
+
+<p>That’s all that is needed. Now whenever a point is added to Constitution, a point is also added to Max Health and half a point is added to Armor. Note that the value assigned is a multiplier. If we added <code class="language-plaintext highlighter-rouge">+5</code> to Constitution, we would add <code class="language-plaintext highlighter-rouge">+(5 * 1.0)=5</code> to Max Health and <code class="language-plaintext highlighter-rouge">+(5 * 0.5)=2.5</code> to Armor.</p>
+
+<h2 id="differences-between-1181-and-1171">Differences between 1.18.1 and 1.17.1</h2>
+
+<p>Attribute functions are implemented differently in 1.18.1 and 1.17.1. In 1.17.1 when a modifier was applied to a parent, the same modifier would be applied to the children. Now in 1.18.1 when a modifier is applied to the parent, only the change in value is carried over to the children, meaning that you can apply the same modifier to both parents and children, whereas before you could not.</p>
+
+<h2 id="recursion">Recursion</h2>
+
+<p>The keen eye among you may have notices that there is an opportunity for recursion/infinite attributes. Lets show how this might be done:</p>
+
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+    </span><span class="nl">"values"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"examplemod:constitution"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"minecraft:generic.max_health"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nl">"minecraft:generic.max_health"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"examplemod:constitution"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span></code></pre></figure>
+
+<p>Looking at our <code class="language-plaintext highlighter-rouge">functions.json</code> file, we can see that when we add a point to Constitution, a point is added to Max Health; but when a point is added to Max Health, a point is added to Constitution - <em>it would seem we have a vicious cycle on our hands</em>. One could even see how a huge chain of attributes could accidentally become recursive. Constitution adds to Max Health adds to Strength adds to Armor adds to Knockback Resistance adds to Constitution… Not to mention that since each attribute can have many functions attached, the tree of possible combinations resulting in recursion can be extensive.</p>
+
+<p>Therefore, Data Attributes implements protections against this. When the <code class="language-plaintext highlighter-rouge">functions.json</code> files are read and assembled, the functions tree is scanned for loops. Any loops found are broken by removing the first function found that results in a loop. The specific function that would be removed for a specific set of circumstances is unreliable, just that it is impossible for loops to form. This is done so that checks do not have to be made <em>in game</em>, which could cause lag.</p>
+
+<p>That being said, developers and pack creators alike should still be careful not to create loops.</p>
+
+:ET

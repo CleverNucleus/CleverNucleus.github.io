@@ -1,0 +1,128 @@
+I"�:<div class="alert alert-warning" role="alert"><i class="fa fa-warning"></i> <b>Important:</b> This section is now outdated and unsupported. Click <a href="dataattributes-1.18.2_home">here</a> for the latest release.</div>
+
+<h2 id="what-and-why">What and Why</h2>
+
+<p>What is an attribute function? Why has Data Attributes implemented them?</p>
+
+<p>The premise for these questions resides in a commonly found aspect of RPGs. Often, their attribute systems are structured with a few primary attributes (think Constitution, Strength, Dexterity for example) and then secondary attributes (think Max Health, Damage, Evasion for example). Increasing the value of a primary attribute increases the value of secondary attributes as well.</p>
+
+<h3 id="1-the-problem">1. The Problem</h3>
+
+<p>Lets say we have a Minecraft mod that provides this RPG-type attribute system, and there is a nice screen with buttons that let you skill/increase those primary attributes. In code, we may have a method similar to <code class="language-plaintext highlighter-rouge">Button#addAttribute</code>; we would pass the attribute to increase and the amount to increase it by as arguments:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kt">void</span> <span class="nf">onButtonClick</span><span class="o">(</span><span class="nc">Button</span> <span class="n">button</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">button</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="nc">Attributes</span><span class="o">.</span><span class="na">CONSTITUTION</span><span class="o">,</span> <span class="mf">1.0</span><span class="o">);</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>This is actually fine so far; there is nothing wrong with doing it this way. However, things get cumbersome when we implement follow-on attributes. Say for every one point in Constitution, we increase our Max Health by one, Knockback Resistance by 0.01 and Damage by 0.5:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kt">void</span> <span class="nf">onButtonClick</span><span class="o">(</span><span class="nc">Button</span> <span class="n">button</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">button</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="nc">Attributes</span><span class="o">.</span><span class="na">CONSTITUTION</span><span class="o">,</span> <span class="mf">1.0</span><span class="o">);</span>
+    <span class="n">button</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="nc">Attributes</span><span class="o">.</span><span class="na">MAX_HEALTH</span><span class="o">,</span> <span class="mf">1.0</span><span class="o">);</span>
+    <span class="n">button</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="nc">Attributes</span><span class="o">.</span><span class="na">KNOCKBACK_RESISTANCE</span><span class="o">,</span> <span class="mf">0.01</span><span class="o">);</span>
+    <span class="n">button</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="nc">Attributes</span><span class="o">.</span><span class="na">DAMAGE</span><span class="o">,</span> <span class="mf">0.5</span><span class="o">);</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>This is not great. Furthermore, what happens when someone uses the <code class="language-plaintext highlighter-rouge">/attribute</code> command to increase their Constitution? Or equips an item that increases their Constitution? Or what happens when a player wants to customise what attributes are changed when Constitution is changed? What about configurability? We have to create unwieldy repetitons everywhere any kind of attribute modifying code occurs. It is not feasible to do this.</p>
+
+<h3 id="2-the-solution">2. The Solution</h3>
+
+<p>The solution is to append references to the secondary attributes to the primary attribute itself. An attribute is simply a small data-object that acts as a key. We simply expand the amount of data this object holds to include: a collection of the attributes that should be changed when it changes; how each attribute should change; and the amount each attribute should change. This data is stored in a map, and is dubbed an Attribute Function. Moreover, configurability is ensured by exposing Attribute Functions as json resources in datapacks.</p>
+
+<h2 id="structure">Structure</h2>
+
+<p>There are three items to a function:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">attribute</code> refers to the registry key of the attribute that will be added to.</li>
+  <li><code class="language-plaintext highlighter-rouge">behaviour</code> refers to <em>how</em> the attribute will be modified (this can currently either be <code class="language-plaintext highlighter-rouge">FLAT</code> or <code class="language-plaintext highlighter-rouge">DIMINISHING</code>). This is a relatively big topic, and supplements the dedicated <a href="dataattributes-1.17.1_adding_behaviour.html">Adding Behaviour</a> section.</li>
+  <li><code class="language-plaintext highlighter-rouge">multiplier</code> refers to a multiplier applied to a modifier’s value before it is applied.</li>
+</ul>
+
+<h2 id="behaviour">Behaviour</h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">DIMINISHING</code> type allows us to specify an addition type with <em>diminishing returns</em>. This type of addition is found in other games with advanced attribute systems: in Dota 2, Evasion is an attribute with a diminishing stacking bonus. If I have an entity with +20% evasion and the entity has an item that provides +30% evasion, one could expect a final value of +50% evasion - but this is wrong. The final value is actually about +38% evasion. It should be noted that this is assuming a max value of 100% evasion (a limit).</p>
+
+<h2 id="how-it-works">How it Works</h2>
+
+<p>There are some things that should be noted about attribute functions:</p>
+
+<ul>
+  <li><em>“added to”</em> refers to any change in the <em>value</em> of said attribute.</li>
+  <li><em>“attribute”</em> in this context refers to <em>attribute instances</em>, which contains the current and base value of their attribute.</li>
+  <li>Therefore, a change in the value of an attribute instance implies the addition or removal of an entity attribute modifier:
+    <ul>
+      <li>Entity attribute modifiers are an object containing a UUID, a name, a value and an operation (ADDITION, MULTIPLY_BADE or MULTIPLY_TOTAL).</li>
+    </ul>
+  </li>
+</ul>
+
+<p>Previously, we talked about how one might have the Consitution attribute, and increasing it would also increase the Max Health attribute. This sounds fine, but it is not necessarily intuitive, and involves some behind-the-scenes action.</p>
+
+<p>Lets say an attribute modifier of the ADDITION type with a value of 4.0 is applied to Constitution. An attribute modifier of the ADDITION type with a value of 4.0 will also be applied to Max Health - furthermore, it will have the same UUID and name. Because it has the same UUID, modders should think carefully about how they apply their attribute modifiers (i.e. use different UUID’s for different attribute instances); just because modifiers carry a unique id, that does not mean that they are unique <em>globally</em>, it only means that they are unique <em>locally</em> to a given attribute instance.</p>
+
+<p>So far so good. An entity exists with 4 Constitution. What if we apply another modifier? This modifier will have another UUID, name, a value of 0.5 and be of the MULTIPLY_TOTAL type. Once applied, our entity will have a Consitution of 6. How does this affect our Max Health?</p>
+
+<p>You could be forgiven for thinking that our Max Health is also increased by 50%. Instead, the following happens:</p>
+
+<p>A new attribute modifier is created, containing the same UUID, the same name, but it has a value of 2 and is of the ADDITION type. This is applied to our MAX HEALTH. Note that the <em>value</em> of the attribute modifier is equal to the <em>difference</em> in original and current values of Constitution (from 4 to 6, giving a difference of 2). This difference is <em>added</em> to Max Health, and a similar order of events occurs for MULTIPLY_BASE.</p>
+
+<p>The important points to take away from this wall of text are:</p>
+
+<ul>
+  <li>Attribute modifiers resulting from attribute functions are <em>always</em> of the ADDITION type (this means that +30% Constitution would not necessarily mean +30% Max Health).</li>
+  <li>Upon the removal or modifiers, all modifiers applied as a result of attribute functions are removed as well.</li>
+  <li>Modifiers are <em>slightly</em> more dynamic; referencing the above scenario, if we increased our value of Constitution from 4 to 8, our +50% would increase the amount added to 4, giving us a total of 12. Likewise, this would increase the amount added to Max Health (from +2 to +4).</li>
+</ul>
+
+<h2 id="json-example">Json Example</h2>
+
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+    </span><span class="nl">"values"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"examplemod:constitution"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"attribute"</span><span class="p">:</span><span class="w"> </span><span class="s2">"minecraft:generic.max_health"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"behaviour"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FLAT"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"multiplier"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"attribute"</span><span class="p">:</span><span class="w"> </span><span class="s2">"minecraft:generic.armor_toughness"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"behaviour"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FLAT"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"multiplier"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.25</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span></code></pre></figure>
+
+<p>That’s all that is needed; note how an attribute (in this case Constitution) can have any number of functions attached - however, each function must be unique in that you cannot have two functions with the same <code class="language-plaintext highlighter-rouge">attribute</code> tag.</p>
+
+<h2 id="recursion">Recursion</h2>
+
+<p>The keen eye among you may have noticed that there is an opportunity for recursion/infinite attributes. Lets show how this might be done:</p>
+
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+    </span><span class="nl">"values"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"examplemod:constitution"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"attribute"</span><span class="p">:</span><span class="w"> </span><span class="s2">"minecraft:generic.max_health"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"behaviour"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FLAT"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"multiplier"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">],</span><span class="w">
+        </span><span class="nl">"minecraft:generic.max_health"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"attribute"</span><span class="p">:</span><span class="w"> </span><span class="s2">"examplemod:constitution"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"behaviour"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FLAT"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"multiplier"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span></code></pre></figure>
+
+<p>Looking at our <code class="language-plaintext highlighter-rouge">functions.json</code> file, we can see that when we add a point to Constitution, a point is added to Max Health; but when a point is added to Max Health, a point is added to Constitution - <em>it would seem we have a vicious cycle on our hands</em>. One could even see how a huge chain of attributes could accidentally become recursive. Constitution adds to Max Health adds to Strength adds to Armor adds to Knockback Resistance adds to Constitution… Note to mention that since each attribute can have many functions attached, the tree of possible combinations resulting in recursion can be extensive.</p>
+
+<p>Therefore, Data Attributes implements protections against this. When the <code class="language-plaintext highlighter-rouge">functions.json</code> files are read and assembled, the functions tree is scanned for loops. Any loops found are broken by removing the first function found that results in a loop. The specific function that would be removed for a specific set of circumstances is unreliable, just that it is impossible for loops to form. This is done so that checks do not have to be made <em>in game</em>, which could cause lag.</p>
+
+<p>That being said, developers and pack creators alike should still be careful not to create loops.</p>
+
+:ET

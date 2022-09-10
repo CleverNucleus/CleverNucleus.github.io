@@ -1,0 +1,38 @@
+I"<h2 id="provided-placeholders">Provided Placeholders</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Placeholder</th>
+      <th style="text-align: left">Online Status</th>
+      <th style="text-align: left">Result</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><span id="redType"><code class="language-plaintext highlighter-rouge">%playerex:level%</code></span></td>
+      <td style="text-align: left">Online Players Only</td>
+      <td style="text-align: left">This displays the player’s current level attribute value.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><span id="redType"><code class="language-plaintext highlighter-rouge">%playerex:name_top/x%</code></span></td>
+      <td style="text-align: left">Offline and Online Players Only</td>
+      <td style="text-align: left">This displays the player’s name whose level is the highest in the current world; where <span id="redType"><code class="language-plaintext highlighter-rouge">x</code></span> represents the relative position of the player in terms of level. For example: for a player with the highest level, <span id="redType"><code class="language-plaintext highlighter-rouge">x</code></span> would be 1; for the player with the second highest level, <span id="redType"><code class="language-plaintext highlighter-rouge">x</code></span> would be 2, and so on. The name displayed is provided by <span id="redType"><code class="language-plaintext highlighter-rouge">GameProfile#getName</code></span>.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><span id="redType"><code class="language-plaintext highlighter-rouge">%playerex:level_top/x%</code></span></td>
+      <td style="text-align: left">Offline and Online Players Only</td>
+      <td style="text-align: left">This displays the player’s level whose level is the highest in the current world; where <span id="redType"><code class="language-plaintext highlighter-rouge">x</code></span> represents the relative position of the player in terms of level. For example: for a player with the highest level, <span id="redType"><code class="language-plaintext highlighter-rouge">x</code></span> would be 1; for the player with the second highest level, <span id="redType"><code class="language-plaintext highlighter-rouge">x</code></span> would be 2, and so on. The value displayed is provided by <span id="redType"><code class="language-plaintext highlighter-rouge">LivingEntity#getAttributeValue</code></span>.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="notes">Notes</h2>
+
+<p>When a player leaves a world (disconnects), PlayerEx caches that player’s <code class="language-plaintext highlighter-rouge">UUID</code>, <code class="language-plaintext highlighter-rouge">Name</code> and <code class="language-plaintext highlighter-rouge">Level</code>. These values are used by the server when providing placeholders for offline players, whereas for online players the current/life value is provided instead of the cached one. Upon joining a world (reconnecting) that player’s cache is removed and their current/live values are used once again.</p>
+
+<p>This offline caching functionality is provided by <a href="opc-1.18.2_home">Offline Player Cache</a> - a lighweight library/API mod. PlayerEx ships with it included (jar-in-jar). There may be circumstances where a player has quit a world/server but their cache is still there. To remove their cache, or even just their cached <code class="language-plaintext highlighter-rouge">Name</code> or <code class="language-plaintext highlighter-rouge">Level</code>, please see <a href="opc-1.18.2_home#commands">here</a>.</p>
+
+<div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> <b>Note:</b> Also see <a href="https://github.com/Patbox/TextPlaceholderAPI">Text Placeholder API</a></div>
+
+:ET

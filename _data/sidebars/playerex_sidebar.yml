@@ -1,0 +1,49 @@
+# This is your sidebar TOC. The sidebar code loops through sections here and provides the appropriate formatting.
+
+entries:
+- title: sidebar
+  product: PlayerEx
+  version: 
+  folders:
+
+  - title:
+    output: pdf
+    type: frontmatter
+    folderitems:
+    - title:
+      url: /titlepage.html
+      output: pdf
+      type: frontmatter
+    - title:
+      url: /tocpage.html
+      output: pdf
+      type: frontmatter
+
+  - title: 1.18.2+
+    output: web, pdf
+    folderitems:
+
+    - title: Home
+      url: /playerex-1.18.2_home.html
+      output: web, pdf
+      type: homepage
+
+    - title: In-game Content
+      url: /playerex-1.18.2_content.html
+      output: web, pdf
+      type: homepage
+
+    - title: TextPlaceholderAPI
+      url: /playerex-1.18.2_textplaceholderapi.html
+      output: web, pdf
+      type: homepage
+
+    - title: FAQ
+      url: /playerex-1.18.2_faq.html
+      output: web, pdf
+      type: homepage
+
+    - title: API
+      url: /playerex-1.18.2_api.html
+      output: web, pdf
+      type: homepage

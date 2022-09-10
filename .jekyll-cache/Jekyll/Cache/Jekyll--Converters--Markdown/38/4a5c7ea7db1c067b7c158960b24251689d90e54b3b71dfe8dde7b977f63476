@@ -1,0 +1,529 @@
+I"�<h2 id="structure-and-overview">Structure and Overview</h2>
+
+<p>PlayerEx includes an API package, located at <code class="language-plaintext highlighter-rouge">com.github.clevernucleus.playerex.api</code> and contains the following:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>📂api
+ ┣📂client
+ ┃ ┣📄ClientUtil.java class
+ ┃ ┣📄PageLayer.java class
+ ┃ ┣📄PageRegistry.java class
+ ┃ ┗📄RenderComponent.java class
+ ┃
+ ┣📂damage
+ ┃ ┣📄DamageFunction.java interface
+ ┃ ┗📄DamagePredicate.java interface
+ ┃
+ ┣📂event
+ ┃ ┣📄LivingEntityEvents.java class
+ ┃ ┗📄PlayerEntityEvents.java class
+ ┃
+ ┣📄EntityAttributeSupplier.java class
+ ┣📄ExAPI.java class
+ ┣📄ExConfig.java interface
+ ┣📄PacketType.java enum
+ ┗📄PlayerData.java interface
+</code></pre></div></div>
+
+<p>The PlayerEx API can be split into four distinct sub-systems: the client-side page/tab registry, which exists to allow developers to add more inventory tabs and content to existing inventory pages; the damage-registry, which exists to allow developers to register damage handlers to better manipulate damage events; the <code class="language-plaintext highlighter-rouge">LivingEntityEvents</code> and <code class="language-plaintext highlighter-rouge">PlayerEntityEvents</code> classes, which provide developers useful hooks into attributes and specific methods; and finally, the attribute registry - which acts to provide developers with attribute suppliers and access to all the attributes PlayerEx adds.</p>
+
+<h2 id="api-content">API Content</h2>
+
+<p>The following subsections detail every method/field in each java class located in the <code class="language-plaintext highlighter-rouge">api</code> package.</p>
+
+<h3 id="1-clientclientutiljava">1. client.ClientUtil.java</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modifiers and Type</th>
+      <th>Method/Field and Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">DecimalFormat</code></span></td>
+      <td><span id="redCode"><strong>FORMATTING_2</strong></span> <br />Format for two decimal places.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">DecimalFormat</code></span></td>
+      <td><span id="redCode"><strong>FORMATTING_3</strong></span> <br />Format for three decimal places.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">double</code></span></td>
+      <td><span id="redCode"><strong>displayValue</strong>(<strong>Supplier&lt;EntityAttribute&gt;</strong> attribute, <strong>double</strong> value)</span> <br />Takes the input attribute and looks for the <code class="language-plaintext highlighter-rouge">PERCENTAGE_PROPERTY</code> property; if it is present, multiplies the input value by the property’s multiplier. If not, then looks for the <code class="language-plaintext highlighter-rouge">MULTIPLIER_PROPERTY</code> property; if present, multiplies the input value by the property’s multiplier. Else returns the input value.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">String</code></span></td>
+      <td><span id="redCode"><strong>formatValue</strong>(<strong>Supplier&lt;EntityAttribute&gt;</strong> attribute, <strong>double</strong> value)</span> <br />If the input value is positive, adds the <code class="language-plaintext highlighter-rouge">+</code> prefix. If the input attribute has the <code class="language-plaintext highlighter-rouge">PERCENTAGE_PROPERTY</code> property, appends the <code class="language-plaintext highlighter-rouge">%</code> suffix.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">void</code></span></td>
+      <td><span id="redCode"><strong>appendChildrenToTooltip</strong>(<strong>List&lt;Text&gt;</strong> tooltip, <strong>Supplier&lt;EntityAttribute&gt;</strong> attribute)</span> <br />Looks for the input attribute’s functions, and if there are any, formats them and adds them to the input list as tooltips.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">void</code></span></td>
+      <td><span id="redCode"><strong>modifyAttributes</strong>(<strong>PacketType</strong> type, <strong>Consumer&lt;BiConsumer&lt;EntityAttributeSupplier, Double&gt;&gt;</strong> … consumers)</span> <br />Client-side. Sends a packet to the server to modify the attribute modifiers provided by PlayerEx by the input amount, and performs the checks and functions dictated by the PacketType (this logic is run on the server when it receives the packet).</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="2-clientpagelayerjava">2. client.PageLayer.java</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modifiers and Type</th>
+      <th>Method/Field and Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">protected</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">HandledScreen&lt;?&gt;</code></span></td>
+      <td><span id="redCode"><strong>parent</strong></span> <br />Reference to the parent screen.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">void</code></span></td>
+      <td><span id="redCode"><strong>render</strong>(<strong>MatrixStack</strong> matrices, <strong>int</strong> mouseX, <strong>int</strong> mouseY, <strong>float</strong> delta)</span> <br />This is where text and tooltips can be rendered, in that order.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">void</code></span></td>
+      <td><span id="redCode"><strong>drawBackground</strong>(<strong>MatrixStack</strong> matrices, <strong>float</strong> delta, <strong>int</strong> mouseX, <strong>int</strong> mouseY)</span> <br />This is where textures and widgets can be rendered, in that order.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="3-clientpageregistryjava">3. client.PageRegistry.java</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modifiers and Type</th>
+      <th>Method/Field and Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">void</code></span></td>
+      <td><span id="redCode"><strong>registerPage</strong>(<strong>Identifier</strong> pageId, <strong>Identifier</strong> icon, <strong>Identifier</strong> texture, <strong>Text</strong> title)</span> <br />Registers a page and tab to the PlayerEx screen.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">void</code></span></td>
+      <td><span id="redCode"><strong>registerPage</strong>(<strong>Identifier</strong> pageId, <strong>Identifier</strong> icon, <strong>Text</strong> title)</span> <br />Registers a page and tab to the PlayerEx screen, but with the default background.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">void</code></span></td>
+      <td><span id="redCode"><strong>registerLayer</strong>(<strong>Identifier</strong> pageId, <strong>PageLayer.Builder</strong> builder)</span> <br />Registers a page layer to a page of the same input pageId.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="4-clientrendercomponentjava">4. client.RenderComponent.java</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modifiers and Type</th>
+      <th>Method/Field and Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">RenderComponent</code></span></td>
+      <td><span id="redCode"><strong>of</strong>(<strong>Supplier&lt;EntityAttribute&gt;</strong> attribute, <strong>Function&lt;LivingEntity, Text&gt;</strong> function, <strong>Function&lt;LivingEntity, List&lt;Text&gt;&gt;</strong> tooltip, <strong>int</strong> dx, <strong>int</strong> dy)</span> <br />Creates a new <code class="language-plaintext highlighter-rouge">RenderComponent</code> object.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">RenderComponent</code></span></td>
+      <td><span id="redCode"><strong>of</strong>(<strong>Function&lt;LivingEntity, Text&gt;</strong> function, <strong>Function&lt;LivingEntity, List&lt;Text&gt;&gt;</strong> tooltip, <strong>int</strong> dx, <strong>int</strong> dy)</span> <br />Creates a new <code class="language-plaintext highlighter-rouge">RenderComponent</code> object.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">private</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">boolean</code></span></td>
+      <td><span id="redCode"><strong>isMouseOver</strong>(<strong>float</strong> x, <strong>float</strong> y, <strong>float</strong> width, <strong>float</strong> height, <strong>int</strong> mouseX, <strong>int</strong> mouseY)</span> <br />Checks to see if the mouse is over the input area.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">void</code></span></td>
+      <td><span id="redCode"><strong>renderText</strong>(<strong>LivingEntity</strong> livingEntity, <strong>MatrixStack</strong> matrices, <strong>TextRenderer</strong> textRenderer, <strong>int</strong> x, <strong>int</strong> y, <strong>float</strong> scaleX, <strong>float</strong> scaleY)</span> <br />Renders the text from the input function.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">void</code></span></td>
+      <td><span id="redCode"><strong>renderTooltip</strong>(<strong>LivingEntity</strong> livingEntity, <strong>RenderTooltip</strong> consumer, <strong>MatrixStack</strong> matrices, <strong>TextRenderer</strong> textRenderer, <strong>int</strong> x, <strong>int</strong> y, <strong>int</strong> mouseX, <strong>int</strong> mouseY, <strong>float</strong> scaleX, <strong>float</strong> scaleY)</span> <br />Renders tooltip for the given text.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="5-damagedamagefunctionjava">5. damage.DamageFunction.java</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modifiers and Type</th>
+      <th>Method/Field and Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">float</code></span></td>
+      <td><span id="redCode"><strong>apply</strong>(<strong>LivingEntity</strong> livingEntity, <strong>DamageSource</strong> source, <strong>float</strong> damage)</span> <br />Using the input conditions, modifies the incoming damage (either reducing or increasing it) and returns the result.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="6-damagedamagepredicatejava">6. damage.DamagePredicate.java</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modifiers and Type</th>
+      <th>Method/Field and Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">boolean</code></span></td>
+      <td><span id="redCode"><strong>test</strong>(<strong>LivingEntity</strong> livingEntity, <strong>DamageSource</strong> source, <strong>float</strong> damage)</span> <br />Determines, using the input conditions, whether to apply the <code class="language-plaintext highlighter-rouge">DamageFunction</code> to the incoming damage of the <code class="language-plaintext highlighter-rouge">LivingEntity</code>.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="7-eventlivingentityeventsjava">7. event.LivingEntityEvents.java</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modifiers and Type</th>
+      <th>Method/Field and Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">Event&lt;Healed&gt;</code></span></td>
+      <td><span id="redCode"><strong>ON_HEAL</strong></span> <br />Fired before <code class="language-plaintext highlighter-rouge">LivingEntity#heal</code>; allows the amount healed to be modified before healing happens. Setting the output to 0 is an unreliable way to negate incoming damage depending on other mods installed. Instead, use <code class="language-plaintext highlighter-rouge">SHOULD_HEAL</code>.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">Event&lt;Heal&gt;</code></span></td>
+      <td><span id="redCode"><strong>SHOULD_HEAL</strong></span> <br />Fired at the start of <code class="language-plaintext highlighter-rouge">LivingEntity#heal</code>, but before healing is applied. Can return false to cancel all healing, or true to allow it.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">Event&lt;Tick&gt;</code></span></td>
+      <td><span id="redCode"><strong>EVERY_SECOND</strong></span> <br />Fired once at the end of <code class="language-plaintext highlighter-rouge">LivingEntity#tick</code>, every 20 ticks (1 second).</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">Event&lt;Damaged&gt;</code></span></td>
+      <td><span id="redCode"><strong>ON_DAMAGE</strong></span> <br />Fired before <code class="language-plaintext highlighter-rouge">LivingEntity#damage</code>; allows the amount of damage to be modified before it is used in any way. Can be used to perform logic prior to the damage method, and can return the original damage to avoid modifying the value. The original value is the incoming damage, followed by the result of this event by any previous registries. Setting the output to 0 is an unreliable way to negate incoming damage depending on other mods installed. Instead, use <code class="language-plaintext highlighter-rouge">SHOULD_DAMAGE</code>.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">Event&lt;Damage&gt;</code></span></td>
+      <td><span id="redCode"><strong>SHOULD_DAMAGE</strong></span> <br />Fired after: <br /><code class="language-plaintext highlighter-rouge">LivingEntity#isInvulnerableTo</code><br /><code class="language-plaintext highlighter-rouge">World#isClient</code><br /><code class="language-plaintext highlighter-rouge">LivingEntity#isDead</code><br /><code class="language-plaintext highlighter-rouge">DamageSource#isFire</code> and <code class="language-plaintext highlighter-rouge">LivingEntity#hasStatusEffect</code><br /><code class="language-plaintext highlighter-rouge">LivingEntity#isSleeping</code><br />but before all other logic is performed. Can be used to cancel the method and prevent damage from being taken by returning false. Returning true allows the logic to continue.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">interface</code></span></td>
+      <td><span id="redCode"><strong>Healed</strong> {…}</span> <br />Nested functional interface for <code class="language-plaintext highlighter-rouge">ON_HEAL</code> .</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">interface</code></span></td>
+      <td><span id="redCode"><strong>Heal</strong> {…}</span> <br />Nested functional interface for <code class="language-plaintext highlighter-rouge">SHOULD_HEAL</code> .</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">interface</code></span></td>
+      <td><span id="redCode"><strong>Tick</strong> {…}</span> <br />Nested functional interface for <code class="language-plaintext highlighter-rouge">EVERY_SECOND</code> .</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">interface</code></span></td>
+      <td><span id="redCode"><strong>Damaged</strong> {…}</span> <br />Nested functional interface for <code class="language-plaintext highlighter-rouge">ON_DAMAGE</code> .</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">interface</code></span></td>
+      <td><span id="redCode"><strong>Damage</strong> {…}</span> <br />Nested functional interface for <code class="language-plaintext highlighter-rouge">SHOULD_DAMAGE</code> .</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="8-eventplayerentityeventsjava">8. event.PlayerEntityEvents.java</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modifiers and Type</th>
+      <th>Method/Field and Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">Event&lt;AttackCritDamage&gt;</code></span></td>
+      <td><span id="redCode"><strong>ON_CRIT</strong></span> <br />Fired after the player lands a critical hit. The result is the damage.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">Event&lt;AttackCritBoolean&gt;</code></span></td>
+      <td><span id="redCode"><strong>SHOULD_CRIT</strong></span> <br />Fired when determining if the player’s attack is critical. Return true if it is critical, return false if it is not.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">interface</code></span></td>
+      <td><span id="redCode"><strong>AttackCritDamage</strong> {…}</span> <br />Nested functional interface for <code class="language-plaintext highlighter-rouge">ON_DAMAGE</code> .</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">interface</code></span></td>
+      <td><span id="redCode"><strong>AttackCritBoolean</strong> {…}</span> <br />Nested functional interface for <code class="language-plaintext highlighter-rouge">SHOULD_DAMAGE</code> .</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="9-entityattributesupplierjava">9. EntityAttributeSupplier.java</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modifiers and Type</th>
+      <th>Method/Field and Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">private</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">Identifier</code></span></td>
+      <td><span id="redCode"><strong>identifier</strong></span> <br />The attribute’s identifier (data does not change, objects do).</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">EntityAttributeSupplier</code></span></td>
+      <td><span id="redCode"><strong>of</strong>(<strong>Identifier</strong> registryKey)</span> <br />Creates a new <code class="language-plaintext highlighter-rouge">EntityAttributeSupplier</code> object.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">Identifier</code></span></td>
+      <td><span id="redCode"><strong>getId</strong>()</span> <br />Returns the supplier’s attribute registry key.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">EntityAttribute</code></span></td>
+      <td><span id="redCode"><strong>get</strong>()</span> <br />Returns the mapped <code class="language-plaintext highlighter-rouge">EntityAttribute</code> object in the games attribute registry if it exists for this supplier’s registry key; otherwise, returns null.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="10-exapijava">10. ExAPI.java</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modifiers and Type</th>
+      <th>Method/Field and Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">String</code></span></td>
+      <td><span id="redCode"><strong>MODID</strong></span> <br />The PlayerEx mod id.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">String</code></span></td>
+      <td><span id="redCode"><strong>INTEGER_PROPERTY</strong></span> <br />Round value to integer property that is attached to some attributes.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">String</code></span></td>
+      <td><span id="redCode"><strong>PERCENTAGE_PROPERTY</strong></span> <br />Multiply value by property and append % symbol.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">String</code></span></td>
+      <td><span id="redCode"><strong>MULTIPLY_PROPERTY</strong></span> <br />Multiply value by property.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">UUID</code></span></td>
+      <td><span id="redCode"><strong>PLAYEREX_MODIFIER_ID</strong></span> <br />The UUID PlayerEx attribute modifiers use.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">CacheableValue&lt;Integer&gt;</code></span></td>
+      <td><span id="redCode"><strong>LEVEL_VALUE</strong></span> <br />The <code class="language-plaintext highlighter-rouge">CacheableValue</code> key for PlayerEx’s player data..</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">ComponentKey&lt;PlayerData&gt;</code></span></td>
+      <td><span id="redCode"><strong>PLAYER_DATA</strong></span> <br />The Caridnal Components Key for PlayerEx player data.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">EntityAttributeSupplier</code></span></td>
+      <td><span id="redCode"><strong>LEVEL</strong></span> <br />The level attribute.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">EntityAttributeSupplier</code></span></td>
+      <td><span id="redCode"><strong>CONSTITUTION</strong></span> <br />The constitution attribute.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">EntityAttributeSupplier</code></span></td>
+      <td><span id="redCode"><strong>STRENGTH</strong></span> <br />The strength attribute.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">EntityAttributeSupplier</code></span></td>
+      <td><span id="redCode"><strong>DEXTERITY</strong></span> <br />The dexterity attribute.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">EntityAttributeSupplier</code></span></td>
+      <td><span id="redCode"><strong>INTELLIGENCE</strong></span> <br />The intelligence attribute.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">EntityAttributeSupplier</code></span></td>
+      <td><span id="redCode"><strong>LUCKINESS</strong></span> <br />The luckiness attribute.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">EntityAttributeSupplier</code></span></td>
+      <td><span id="redCode"><strong>EVASION</strong></span> <br />The evasion attribute.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">EntityAttributeSupplier</code></span></td>
+      <td><span id="redCode"><strong>LIFESTEAL</strong></span> <br />The lifesteal attribute.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">EntityAttributeSupplier</code></span></td>
+      <td><span id="redCode"><strong>HEALTH_REGENERATION</strong></span> <br />The health regeneration attribute.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">EntityAttributeSupplier</code></span></td>
+      <td><span id="redCode"><strong>HEAL_AMPLIFICATION</strong></span> <br />The heal amplification attribute.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">EntityAttributeSupplier</code></span></td>
+      <td><span id="redCode"><strong>MELEE_CRIT_DAMAGE</strong></span> <br />The melee crit damage attribute.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">EntityAttributeSupplier</code></span></td>
+      <td><span id="redCode"><strong>MELEE_CRIT_CHANCE</strong></span> <br />The melee crit chance attribute.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">EntityAttributeSupplier</code></span></td>
+      <td><span id="redCode"><strong>RANGED_CRIT_DAMAGE</strong></span> <br />The ranged crit damage attribute.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">EntityAttributeSupplier</code></span></td>
+      <td><span id="redCode"><strong>RANGED_CRIT_CHANCE</strong></span> <br />The ranged crit chance attribute.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">EntityAttributeSupplier</code></span></td>
+      <td><span id="redCode"><strong>RANGED_DAMAGE</strong></span> <br />The ranged damage attribute.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">EntityAttributeSupplier</code></span></td>
+      <td><span id="redCode"><strong>FIRE_RESISTANCE</strong></span> <br />The fire resistance attribute.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">EntityAttributeSupplier</code></span></td>
+      <td><span id="redCode"><strong>FREEZE_RESISTANCE</strong></span> <br />The freeze resistance attribute.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">EntityAttributeSupplier</code></span></td>
+      <td><span id="redCode"><strong>LIGHTNING_RESISTANCE</strong></span> <br />The lightning resistance attribute.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">EntityAttributeSupplier</code></span></td>
+      <td><span id="redCode"><strong>POISON_RESISTANCE</strong></span> <br />The poison resistance attribute.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">EntityAttributeSupplier</code></span></td>
+      <td><span id="redCode"><strong>WITHER_RESISTANCE</strong></span> <br />The wither resistance attribute.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">EntityAttributeSupplier</code></span></td>
+      <td><span id="redCode"><strong>BREAKING_SPEED</strong></span> <br />The breaking speed attribute.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">EntityAttributeSupplier</code></span></td>
+      <td><span id="redCode"><strong>REACH_DISTANCE</strong></span> <br />The reach distance attribute. This is not implemented by PlayerEx, but by JamieWhiteShirt’s reach-entity-attributes.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">EntityAttributeSupplier</code></span></td>
+      <td><span id="redCode"><strong>ATTACK_RANGE</strong></span> <br />The attack range attribute. This is not implemented by PlayerEx, but by JamieWhiteShirt’s reach-entity-attributes.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">ExConfig</code></span></td>
+      <td><span id="redCode"><strong>getConfig</strong>()</span> <br />Access to PlayerEx’s config.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">void</code></span></td>
+      <td><span id="redCode"><strong>registerDamageModification</strong>(<strong>DamagePredicate</strong> predicate, <strong>DamageFunction</strong> function)</span> <br />Registers a damage modification condition that is applied to living entities under specific circumstances.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">void</code></span></td>
+      <td><span id="redCode"><strong>registerRefundCondition</strong>(<strong>BiFunction&lt;PlayerData, PlayerEntity&gt;</strong> refundCondition)</span> <br />Registers a refund condition. Refund conditions tell the game what can be refunded and what the maximum number of refund points are for a given circumstance.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="11-exconfigjava">11. ExConfig.java</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modifiers and Type</th>
+      <th>Method/Field and Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">boolean</code></span></td>
+      <td><span id="redCode"><strong>resetOnDeath</strong>()</span></td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">boolean</code></span></td>
+      <td><span id="redCode"><strong>isAttributesGuiDisabled</strong>()</span></td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">int</code></span></td>
+      <td><span id="redCode"><strong>skillPointsPerLevelUp</strong>()</span></td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">int</code></span></td>
+      <td><span id="redCode"><strong>requiredXp</strong>(<strong>PlayerEntity</strong> player)</span></td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">float</code></span></td>
+      <td><span id="redCode"><strong>levelUpVolume</strong>()</span></td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">float</code></span></td>
+      <td><span id="redCode"><strong>skillUpVolume</strong>()</span></td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">float</code></span></td>
+      <td><span id="redCode"><strong>textScaleX</strong>()</span></td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">float</code></span></td>
+      <td><span id="redCode"><strong>textScaleY</strong>()</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="12-packettypejava">12. PacketType.java</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modifiers and Type</th>
+      <th>Method/Field and Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">PacketType</code></span></td>
+      <td><span id="redCode"><strong>DEFAULT</strong></span><br />Does nothing extra - just allows the server to modify PlayerEx’s attribute modifiers.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">PacketType</code></span></td>
+      <td><span id="redCode"><strong>LEVEL</strong></span><br />Only allows modification if the player’s experience levels are greater than or equal to the required xp to level up. Also removes those experience levels from the player and adds n skill points; where n is defined by config option skill points per level up.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">PacketType</code></span></td>
+      <td><span id="redCode"><strong>SKILL</strong></span><br />Only allows modification if the player’s skill points are greater than or equal to 1. Also subtracts one skill point from the player.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">final</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">PacketType</code></span></td>
+      <td><span id="redCode"><strong>REFUND</strong></span><br />Only allows modification if the player’s refund points are greater than or equal to 1. Also subtracts one refund point and adds one skill point.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">static</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">PacketType</code></span></td>
+      <td><span id="redCode"><strong>fromId</strong>(<strong>byte</strong> id)</span><br />Gets the correct <code class="language-plaintext highlighter-rouge">PacketType</code> from the input (or else <code class="language-plaintext highlighter-rouge">DEFAULT</code>).</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">byte</code></span></td>
+      <td><span id="redCode"><strong>id</strong>()</span><br />Returns the <code class="language-plaintext highlighter-rouge">PacketType</code>’s id.</td>
+    </tr>
+    <tr>
+      <td><span id="redType"><code class="language-plaintext highlighter-rouge">public</code></span><br /><span id="redType"><code class="language-plaintext highlighter-rouge">boolean</code></span></td>
+      <td><span id="redCode"><strong>test</strong>(<strong>MinecraftServer</strong> server, <strong>ServerPlayerEntity</strong> player, <strong>PlayerData</strong> data)</span><br />Runs the test function.</td>
+    </tr>
+  </tbody>
+</table>
+
+:ET

@@ -1,0 +1,287 @@
+I"�V<h2 id="attributes">Attributes</h2>
+
+<p>PlayerEx adds fully functional attributes to the game. By default these attributes are only present on the player, but attributes with the <strong>Applicable Entity</strong> type <code class="language-plaintext highlighter-rouge">LivingEntity</code> can be attached to any living entity with datapacks - see <a href="dataattributes-1.18.2_datapacks">Data Attributes</a>.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Attribute<br />Registry Key</th>
+      <th style="text-align: center">Applicable Entity</th>
+      <th style="text-align: center">Stacking Behaviour</th>
+      <th style="text-align: left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">Evasion<br /><span id="redType"><code class="language-plaintext highlighter-rouge">playerex:evasion</code></span></td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">LivingEntity</code></span></td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">DIMINISHING</code></span></td>
+      <td style="text-align: left">The chance to dodge projectiles.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Lifesteal<br /><span id="redType"><code class="language-plaintext highlighter-rouge">playerex:lifesteal</code></span></td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">LivingEntity</code></span></td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">DIMINISHING</code></span></td>
+      <td style="text-align: left">A percentage of melee and ranged damage dealth is healed.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Health Regeneration<br /><span id="redType"><code class="language-plaintext highlighter-rouge">playerex:health_regeneration</code></span></td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">LivingEntity</code></span></td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">DIMINISHING</code></span></td>
+      <td style="text-align: left">Health passively healed every second.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Heal Amplification<br /><span id="redType"><code class="language-plaintext highlighter-rouge">playerex:heal_amplification</code></span></td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">LivingEntity</code></span></td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">DIMINISHING</code></span></td>
+      <td style="text-align: left">All healing is amplified by this amount.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Melee Crit Damage<br /><span id="redType"><code class="language-plaintext highlighter-rouge">playerex:melee_crit_damage</code></span></td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">PlayerEntity</code></span></td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">DIMINISHING</code></span></td>
+      <td style="text-align: left">Attack damage is multiplied by this amount on a melee critical hit.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Melee Crit Chance<br /><span id="redType"><code class="language-plaintext highlighter-rouge">playerex:melee_crit_chance</code></span></td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">PlayerEntity</code></span></td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">DIMINISHING</code></span></td>
+      <td style="text-align: left">The chance for a melee attack to be a critical hit.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Ranged Crit Damage<br /><span id="redType"><code class="language-plaintext highlighter-rouge">playerex:ranged_crit_damage</code></span></td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">LivingEntity</code></span></td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">DIMINISHING</code></span></td>
+      <td style="text-align: left">Projectile damage is multiplied by this amount on a rangd critical hit.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Ranged Crit Chance<br /><span id="redType"><code class="language-plaintext highlighter-rouge">playerex:ranged_crit_chance</code></span></td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">LivingEntity</code></span></td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">DIMINISHING</code></span></td>
+      <td style="text-align: left">The chance for a projectile fired to result in a critical hit.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Ranged Bonus Damage<br /><span id="redType"><code class="language-plaintext highlighter-rouge">playerex:ranged_damage</code></span></td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">LivingEntity</code></span></td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">FLAT</code></span></td>
+      <td style="text-align: left">Damage added to projectile base damage.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Fire Resistance<br /><span id="redType"><code class="language-plaintext highlighter-rouge">playerex:fire_resistance</code></span></td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">LivingEntity</code></span></td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">DIMINISHING</code></span></td>
+      <td style="text-align: left">Reduces fire damage by this amount (100% is immunity).</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Freeze Resistance<br /><span id="redType"><code class="language-plaintext highlighter-rouge">playerex:freeze_resistance</code></span></td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">LivingEntity</code></span></td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">DIMINISHING</code></span></td>
+      <td style="text-align: left">Reduces freeze damage by this amount (100% is immunity).</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Lightning Resistance<br /><span id="redType"><code class="language-plaintext highlighter-rouge">playerex:lightning_resistance</code></span></td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">LivingEntity</code></span></td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">DIMINISHING</code></span></td>
+      <td style="text-align: left">Reduces lightning damage by this amount (100% is immunity).</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Poison Resistance<br /><span id="redType"><code class="language-plaintext highlighter-rouge">playerex:poison_resistance</code></span></td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">LivingEntity</code></span></td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">DIMINISHING</code></span></td>
+      <td style="text-align: left">Reduces poison damage by this amount (100% is immunity).</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Wither Resistance<br /><span id="redType"><code class="language-plaintext highlighter-rouge">playerex:wither_resistance</code></span></td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">LivingEntity</code></span></td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">DIMINISHING</code></span></td>
+      <td style="text-align: left">Reduces wither damage by this amount (100% is immunity).</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Breaking Speed<br /><span id="redType"><code class="language-plaintext highlighter-rouge">playerex:breaking_speed</code></span></td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">PlayerEntity</code></span></td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">FLAT</code></span></td>
+      <td style="text-align: left">Defines the player’s base block breaking speed.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Level<br /><span id="redType"><code class="language-plaintext highlighter-rouge">playerex:level</code></span></td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">LivingEntity</code></span></td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">FLAT</code></span></td>
+      <td style="text-align: left">An RPG like level value attribute; does nothing.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Constitution<br /><span id="redType"><code class="language-plaintext highlighter-rouge">playerex:constitution</code></span></td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">LivingEntity</code></span></td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">FLAT</code></span></td>
+      <td style="text-align: left">An RPG like stat value used to increase other attributes: <br />+1 Max Health <br />+0.1 Knockback Resistance <br />+0.1 Poison Resistance</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Strength<br /><span id="redType"><code class="language-plaintext highlighter-rouge">playerex:strength</code></span></td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">LivingEntity</code></span></td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">FLAT</code></span></td>
+      <td style="text-align: left">An RPG like stat value used to increase other attributes: <br />+0.25 Melee Attack Damage <br />+0.5 Armor <br />+0.01 Health Regen./s</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Dexterity<br /><span id="redType"><code class="language-plaintext highlighter-rouge">playerex:dexterity</code></span></td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">LivingEntity</code></span></td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">FLAT</code></span></td>
+      <td style="text-align: left">An RPG like stat value used to increase other attributes: <br />+0.1 Attack Speed <br />+0.25 Ranged Damage <br />+5% Melee Crit Damage <br />+0.1 Lightning Resistance</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Intelligence<br /><span id="redType"><code class="language-plaintext highlighter-rouge">playerex:intelligence</code></span></td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">LivingEntity</code></span></td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">FLAT</code></span></td>
+      <td style="text-align: left">An RPG like stat value used to increase other attributes: <br />+2% Heal Amplification <br />+5% Ranged Crit Damage <br />+0.1 Wither Resistance</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Luckiness<br /><span id="redType"><code class="language-plaintext highlighter-rouge">playerex:luckiness</code></span></td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">LivingEntity</code></span></td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">FLAT</code></span></td>
+      <td style="text-align: left">An RPG like stat value used to increase other attributes: <br />+0.1 Luck <br />+2% Evasion <br />+2% Melee Crit Chance <br />+2% Ranged Crit Chance</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="modified-vanilla-attributes">Modified Vanilla Attributes</h2>
+
+<table>
+  <tbody>
+    <tr>
+      <td>Attribute<br />Registry Key</td>
+      <td>Modification</td>
+    </tr>
+    <tr>
+      <td>Armor<br /><span id="redType"><code class="language-plaintext highlighter-rouge">minecraft:generic.armor</code></span></td>
+      <td>Increased max value from 30 to <span id="redType"><code class="language-plaintext highlighter-rouge">Integer.MAX_VALUE</code></span>.</td>
+    </tr>
+    <tr>
+      <td>Armor Toughness<br /><span id="redType"><code class="language-plaintext highlighter-rouge">minecraft:generic.armor_toughness</code></span></td>
+      <td>Increased max value from 20 to <span id="redType"><code class="language-plaintext highlighter-rouge">Integer.MAX_VALUE</code></span>.</td>
+    </tr>
+    <tr>
+      <td>Knockback Resistance<br /><span id="redType"><code class="language-plaintext highlighter-rouge">minecraft:generic.knockback_resistance</code></span></td>
+      <td>Changed stacking behaviour from <span id="redType"><code class="language-plaintext highlighter-rouge">FLAT</code></span> (default) to <span id="redType"><code class="language-plaintext highlighter-rouge">DIMINISHING</code></span>.</td>
+    </tr>
+    <tr>
+      <td>Max Health<br /><span id="redType"><code class="language-plaintext highlighter-rouge">minecraft:generic.max_health</code></span></td>
+      <td>Changed max value from 1024 to <span id="redType"><code class="language-plaintext highlighter-rouge">Integer.MAX_VALUE</code></span>.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="gui">GUI</h2>
+
+<p>PlayerEx adds tabs to the survival inventory that let the player navigate between their inventory, attributes screen and combat attributes screen. The latter of which allow the player to view their attributes and spend skill points to level up and increase certain attributes. These have an RPG theme.</p>
+
+<div style="text-align: center">
+
+<figure><img class="docimage" src="images/inventory_tabs.png" alt="inventory tabs" style="max-width: 600px" /><figcaption>Added inventory tabs to the survival inventory.</figcaption></figure>
+
+
+
+
+</div>
+
+<div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> <b>Note:</b> The attributes screen can also be accessed using a hotkey: by default this is R.</div>
+
+<h2 id="config">Config</h2>
+
+<p>Most of PlayerEx’s configurability is provided by Data Attributes in the form of datapacks, but there are some items that have a dedicated config - this is split into server and client items. The former requires restarting/reloading the world.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Item</th>
+      <th style="text-align: center">Side</th>
+      <th style="text-align: left">Function</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">Reset On Death</td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">SERVER</code></span></td>
+      <td style="text-align: left">On death, the player’s attributes, level and skill points revert to their defaults.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Disable Attributes GUI</td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">SERVER</code></span></td>
+      <td style="text-align: left">Hides inventory tabs, disables opening of/access to the attributes screen.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Show Level Nameplates</td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">SERVER</code></span></td>
+      <td style="text-align: left">For every <span id="redType"><code class="language-plaintext highlighter-rouge">LivingEntity</code></span> with the Level attribute, a nameplate displays above that entity rendering their level (for players on multiplayer this is just above the head but below the nametag, such that it does not interfere with health bar mods).</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Skill Points per Level</td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">SERVER</code></span></td>
+      <td style="text-align: left">How many Skill Points the player gets for each level up.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Level Up Formula</td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">SERVER</code></span></td>
+      <td style="text-align: left">Dictates how many experience levels are required for the player to level up.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Level Up Volume</td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">CLIENT</code></span></td>
+      <td style="text-align: left">How loud the level up sound effect is (can be set to 0 to mute).</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Skill Up Volume</td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">CLIENT</code></span></td>
+      <td style="text-align: left">How loud the spend skill point sound effect is (can be set to 0 to mute).</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Horizontal Text Scale</td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">CLIENT</code></span></td>
+      <td style="text-align: left">How squished the text on the attributes/combat screen is in the horizontal direction (good for languages with long form translations).</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Vertical Text Scale</td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">CLIENT</code></span></td>
+      <td style="text-align: left">How squished the text on the attributes/combat screen is in the vertical direction (good for languages with long form translations).</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Tooltip Attributes</td>
+      <td style="text-align: center"><span id="redType"><code class="language-plaintext highlighter-rouge">CLIENT</code></span></td>
+      <td style="text-align: left">How weapon tooltips should display their Attack Damage/Speed attributes. By default, increasing your attack damage/speed is not reflected in the tooltip of these attributes - PlayerEx fixes this, but offers the option to choose between different solutions: <br /><strong>1.</strong> Does not fix the issue and leaves tooltips alone, i.e. if you had 5 attack damage, the tooltip of a sword would not show this. This option is available in the event that you are playing with another mod that changes tooltips, and would otherwise be incompatible.). <br /><strong>2.</strong> Displays attack damage/speed the same way attributes are displayed on tooltips, and only shows modifier values. <br /><strong>3.</strong> Displays the attack damage/speed in the vanilla way, but fixes the values so that they reflect the player’s values.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="commands">Commands</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Command</th>
+      <th style="text-align: left">Function</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><span id="redType"><code class="language-plaintext highlighter-rouge">/playerex levelup &lt;player&gt; [amount]</code></span></td>
+      <td style="text-align: left">Levels the input player up by the input amount.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><span id="redType"><code class="language-plaintext highlighter-rouge">/playerex refund &lt;player&gt; [amount]</code></span></td>
+      <td style="text-align: left">Gives the input player the input number of refund points.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><span id="redType"><code class="language-plaintext highlighter-rouge">/playerex reset &lt;player&gt;</code></span></td>
+      <td style="text-align: left">Resets all attributes and skill points on the input player to their defaults.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><span id="redType"><code class="language-plaintext highlighter-rouge">/playerex skillAttribute &lt;player&gt; &lt;attribute&gt; &lt;requires skill points&gt;</code></span></td>
+      <td style="text-align: left">Skills the input attribute, provided the player has a Skill Point available if the final boolean argument is true, or regardless otherwise.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><span id="redType"><code class="language-plaintext highlighter-rouge">/playerex refundAttribute &lt;player&gt; &lt;attribute&gt; &lt;requires refund points&gt;</code></span></td>
+      <td style="text-align: left">Refunds the input attribute, provided the player has a Refund Point available if the final boolean argument is true, or regardless otherwise.</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> <b>Note:</b> Also see commands available with <a href="opc-1.18.2_home#commands">Offline Player Cache</a>, which is included with PlayerEx.</div>
+
+:ET

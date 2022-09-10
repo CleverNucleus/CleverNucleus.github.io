@@ -1,0 +1,139 @@
+I"�)<p><img src="https://github.com/CleverNucleus/Data-Attributes/blob/main/img/logo.png?raw=true" alt="Data Attributes" height="50%" /></p>
+
+<p><img src="https://img.shields.io/github/license/CleverNucleus/Data-Attributes?style=flat-square&amp;color=367DBB" alt="License" />
+<img src="https://img.shields.io/badge/dynamic/json?color=EC1F52&amp;label=Applicable Versions&amp;prefix=%20&amp;query=2.releases&amp;url=https://raw.githubusercontent.com/CleverNucleus/Data-Attributes/main/versions.json&amp;style=flat-square" alt="Applicable Versions" /></p>
+
+<h2 id="welcome">Welcome</h2>
+
+<p>This wiki covers the following:</p>
+
+<ul>
+  <li>Integrating Data Attribues with your project.</li>
+  <li>Data Attribute’s specific capabilities.</li>
+  <li>Using datapacks to configure Data Attributes, including:
+    <ul>
+      <li>Registering new attributes and overriding existing ones.</li>
+      <li>Adding attributes to entities or modifying their attribute containers.</li>
+      <li>Using attribute functions to create parent-child relations between attributes.</li>
+      <li>Using attribute properties to add extra data to attributes.</li>
+      <li>Relevant json formatting.</li>
+    </ul>
+  </li>
+  <li>API contents and usage.</li>
+</ul>
+
+<h2 id="integrating-data-attributes">Integrating Data Attributes</h2>
+
+<p>Data Attributes has a <a href="https://www.curseforge.com/minecraft/mc-mods/data-attributes">Curseforge</a> and <a href="https://modrinth.com/mod/data-attributes">Modrinth</a> page. To add Data Attributes to your project, insert the following into your <code class="language-plaintext highlighter-rouge">build.gradle</code>:</p>
+
+<ul id="profileTabs" class="nav nav-tabs">
+    <li class="active"><a href="#modrinth" data-toggle="tab">Modrinth</a></li>
+    <li><a href="#curseforge" data-toggle="tab">Curseforge</a></li>
+</ul>
+<div class="tab-content">
+<div role="tabpanel" class="tab-pane active" id="modrinth">
+
+
+<figure class="highlight"><pre><code class="language-gradle" data-lang="gradle"><span class="k">repositories</span> <span class="o">{</span>
+    <span class="n">maven</span> <span class="o">{</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s2">"Modrinth"</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s2">"https://api.modrinth.com/maven"</span>
+        <span class="n">content</span> <span class="o">{</span>
+            <span class="n">includeGroup</span> <span class="s2">"maven.modrinth"</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+
+
+<figure class="highlight"><pre><code class="language-gradle" data-lang="gradle"><span class="k">dependencies</span> <span class="o">{</span>
+    <span class="n">modImplementation</span> <span class="s2">"maven.modrinth:data-attributes:&lt;version&gt;"</span>
+<span class="o">}</span></code></pre></figure>
+
+
+</div>
+<div role="tabpanel" class="tab-pane" id="curseforge">
+
+
+<figure class="highlight"><pre><code class="language-gradle" data-lang="gradle"><span class="k">repositories</span> <span class="o">{</span>
+    <span class="n">maven</span> <span class="o">{</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s2">"Curseforge"</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s2">"https://www.cursemaven.com"</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+
+
+<figure class="highlight"><pre><code class="language-gradle" data-lang="gradle"><span class="k">dependencies</span> <span class="o">{</span>
+    <span class="n">modImplementation</span> <span class="s2">"curse.maven:dataattributes-514734:&lt;fileId&gt;"</span>
+<span class="o">}</span></code></pre></figure>
+
+
+The last number after the colon refers to the file id; you should always try to use the latest file.
+
+</div>
+</div>
+
+<div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> <b>Note:</b> Data Attributes depends on Fabric API, so your <code class="language-plaintext highlighter-rouge">build.gradle</code> must accommodate this.</div>
+
+<h2 id="specific-capabilities">Specific Capabilities</h2>
+
+<p>Data Attributes lets you configure absolutely everything to do with attributes using datapacks. This is done by detatching attributes from the game instance and making them world-specific. That is to say, until a world is loaded, the game’s attributes will remain unloaded and ambiguous. To really explain the significance of this, an understanding of how Minecraft implements attributes is needed.</p>
+
+<h3 id="1-attributes-in-vanilla-minecraft">1. Attributes in Vanilla Minecraft</h3>
+
+<p>Firstly, entity attributes (of class <code class="language-plaintext highlighter-rouge">EntityAttribute</code>), henceforth referred to as <em>attributes</em>, are just small data structures containing a translation key, fallback value, minimum value and maximum value - all of which are immutable. Attributes are registered (added) to the game statically when it is first loaded; registered here means that a <em>key</em> (of class <code class="language-plaintext highlighter-rouge">Identifier</code>) is mapped to the <em>value</em> that is the attribute. After all attributes are loaded, the static instances are used in-game as keys themselves.</p>
+
+<p>Attribute instances (of class <code class="language-plaintext highlighter-rouge">EntityAttributeInstance</code>) are a wrapper data structure that holds three relevant objects: an attribute, which acts as a key or identifier for the attribute instance; a value, which is the mutable <em>current</em> value that the attribute instance represents; and a map, which contains attribute modifiers that determine the value.</p>
+
+<p>Attribute modifiers (of class <code class="language-plaintext highlighter-rouge">EntityAttributeModifier</code>) are another data structure that contains: a name; a uuid, which is used as a key/identifier for the modifier; an immutable value; and an operation (of class <code class="language-plaintext highlighter-rouge">EntityAttribteModifier$Operation</code>) that determines how the modifier is to use its value. The three operations are:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Operation</th>
+      <th style="text-align: left">Result</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><span id="redCode"><strong>ADDITION</strong></span></td>
+      <td style="text-align: left">\(x+v\)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><span id="redCode"><strong>MULTIPLY_BASE</strong></span></td>
+      <td style="text-align: left">\(x+(x_1\times v)\)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><span id="redCode"><strong>MULTIPLY_TOTAL</strong></span></td>
+      <td style="text-align: left">\(x\times(1+v)\)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Where \(x\) and \(v\) are the attribute instance and attribute modifier values, respectively. Also of note is \(x_1\), which represents the attribute instance’s base value and any <code class="language-plaintext highlighter-rouge">ADDITION</code> modifiers; otherwise <code class="language-plaintext highlighter-rouge">MULTIPLY_BASE</code> and <code class="language-plaintext highlighter-rouge">MULTIPLY_TOTAL</code> would be the same.</p>
+
+<p>Default attribute containers (of class <code class="language-plaintext highlighter-rouge">DefaultAttributeContainer</code>) are another data structure that holds a map of attributes and attribute instances. They are immutable and mapped to entity types (of class <code class="language-plaintext highlighter-rouge">EntityType</code>). The purpose of default attribute containers is to provide a collection of attributes and default attribute values different entities. When an entity (of class <code class="language-plaintext highlighter-rouge">LivingEntity</code> in this case) is first created, it is representative of an entity type, and therefore has a default attribute container assigned to it. This sets the entity’s default/starting health, for example.</p>
+
+<p>However, default attribute containers are immutable, as previously mentioned. This is not suitable for changing attribute values i.e. modifiers. Therefore, Minecraft provides the attribute container (of class <code class="language-plaintext highlighter-rouge">AttributeContainer</code>). This is a wrapper structure that holds a default attribute container as a fallback, as well as its own map of attributes and attribute instances. This map is mutable, and allows modifiers to be applied.</p>
+
+<div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> <b>Note:</b> Where <em>“of class”</em> is written, the class name is dependent on the mappings used.</div>
+
+<h3 id="2-the-attribute-hierarchy">2. The Attribute Hierarchy</h3>
+
+<div style="text-align: center">
+
+<figure><img class="docimage" src="images/attribute_hierarchy.png" alt="attribute hierarchy" style="max-width: 400px" /><figcaption>Diagram of how components relate to create the attributes system.</figcaption></figure>
+
+
+
+
+</div>
+
+<h3 id="3-changes-and-implementation">3. Changes and Implementation</h3>
+
+<p>Although all attributes are as functional as each other in-game, some are added differently under the hood. Data Attributes splits attributes into two types: data driven, and hard coded. The latter refers not just to vanilla attributes, but to all modded ones as well (so long as they are, well, hard coded). Data driven attributes refers to those added through datapacks (json files). The difference between these is that the hard coded attributes remain loaded for every world, and are not ever <em>unregistered</em>. This means that when using an attribute object reference in the code, the object existing in the registry is the same as the object in any given attribute container, or attribute instance etc. Whereas the data driven attribute is world-dependent and can be unregistered and resynced, meaning that the object existing in the registry is not always the same as the object existing in any given attribute container or similar.</p>
+
+<p>To get around this issue, Data Attributes uses identifiers (<code class="language-plaintext highlighter-rouge">Identifier</code>) to hold attributes in attribute containers or attribute instances etc. While the attribute <em>object</em> may change, the attribute <em>identifier</em> does not, even on reload and resync. This is at the core of what Data Attributes does: it simply changes the attributes system to use the attribute <em>identifier</em> instead of the attribute <em>object</em>, thereby allowing a fully dynamic, data driven attributes system.</p>
+
+:ET
