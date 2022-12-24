@@ -317,4 +317,24 @@ Now use the datapack in your world, and the melee crit behaviour will be vanilla
 
 Yes, this can be done with a resource pack. Textures for compatibility with Vanilla Tweaks [Dark UI](https://vanillatweaks.net/picker/resource-packs/) are available [here](https://github.com/CleverNucleus/PlayerEx/tree/master/img/darkmode).
 
+## 6. How does the chunk-based experience system work?
+
+Each chunk (16x16 block area) has three new numbers attached to it: the Experience Negation Factor; the Restorative Force; and the Restorative Force Interval. The goal of this system is to fix the problem of mob farms allowing for infinite levels. PlayerEx needed something that would limit how much experience players could collect in a given area in a given amount of time i.e., mob farms, whilst also not affecting modded dungeons which also use spawners.
+
+### 6.1 The Experience Negation Factor
+
+This value defaults to `1.0` and essentially describes the chance for experience orbs to spawn. A value of `1.0` guarantees that experience orbs spawn and a value of `0.0` guarantees that experience orbs do not spawn. 
+
+Everytime an experience orb successfully spawns in a chunk, it multiplies that chunk's Experience Negation Factor by a value that is less than one - in other words, it reduces the chunk's Experience Negation Factor. This multiplier (i.e., how rapidly the chance for experience orbs to spawn decreases) is configurable; by default, the configurable multiplier value is `0.95`, but setting it to `1.0` causes this entire experience system to return to vanilla behaviour.
+
+When the chunk's Experience Negation Factor is reduced to less than `1.0`, the chance for subsequent experience orbs to spawn in that chunk is also reduced. 
+
+### 6.2 The Restorative Force
+
+This value is a greater-than-one multiplier that acts to bring the chunk's Experience Negation Factor back up to `1.0`. Every Restorative Force Interval, the chunk's Experience Negation Factor is multiplied by its Restorative Force. This value is also configurable.
+
+### 6.3 The Restorative Force Interval
+
+This value is the number of ticks between each Restorative Event. A Restorative Event is the term used to describe when a chunk's Experience Negation Factor is increased (multiplied by the Restorative Force). It should be noted that 20 ticks is 1 second. This value is configurable.
+
 {% include links.html %}

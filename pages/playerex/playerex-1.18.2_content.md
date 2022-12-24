@@ -66,6 +66,9 @@ Most of PlayerEx's configurability is provided by Data Attributes in the form of
 | Show Level Nameplates | <span id="redType">`SERVER`</span> | For every <span id="redType">`LivingEntity`</span> with the Level attribute, a nameplate displays above that entity rendering their level (for players on multiplayer this is just above the head but below the nametag, such that it does not interfere with health bar mods). |
 | Skill Points per Level | <span id="redType">`SERVER`</span> | How many Skill Points the player gets for each level up. |
 | Level Up Formula | <span id="redType">`SERVER`</span> | Dictates how many experience levels are required for the player to level up. |
+| Restorative Force Ticks | <span id="redType">`SERVER`</span> | The number of ticks between every restorative event. Note that 20 ticks is 1 second. |
+| Restorative Force | <span id="redType">`SERVER`</span> | The counter-balancing multiplier that acts to restore the XP Negation Factor to 1.0. |
+| XP Negation Factor | <span id="redType">`SERVER`</span> | The chance for xp orbs to drop in a given chunk. Setting this value to 100 causes vanilla behaviour. |
 | Level Up Volume | <span id="redType">`CLIENT`</span> | How loud the level up sound effect is (can be set to 0 to mute). |
 | Skill Up Volume | <span id="redType">`CLIENT`</span> | How loud the spend skill point sound effect is (can be set to 0 to mute). |
 | Horizontal Text Scale | <span id="redType">`CLIENT`</span> | How squished the text on the attributes/combat screen is in the horizontal direction (good for languages with long form translations). |
