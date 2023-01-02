@@ -81,6 +81,56 @@ We go to the directory `data/examplemod/attributes/` where we create the json fi
 
 That's all that is needed. Now whenever a point is added to Constitution, a point is also added to Max Health and half a point is added to Armor. Note that the value assigned is a multiplier. If we added `+5` to Constitution, we would add `+(5 * 1.0)=5` to Max Health and `+(5 * 0.5)=2.5` to Armor.
 
+### 3. Changes to Attribute Functions
+
+As of release `1.3.0` and `1.4.0` for Minecraft `1.18.2.` and `1.19.2`, respectively, attribute functions have changed slightly. They are now differentiated by Function Behaviour as either `ADDITION` or `MULTIPLY` functions. This is due to the need to be able to have attributes that contribute multiplicatively instead of flat addition. The new JSON reflects this change:
+
+#### 3.1 Example 2 with updated JSON
+
+{% highlight json %}
+
+{
+    "values": {
+        "examplemod:constitution": {
+            "minecraft:generic.max_health": {
+                "behaviour": "ADDITION",
+                "value": 1.0
+            },
+            "minecraft:generic.armor": {
+                "behaviour": "ADDITION",
+                "value": 0.5
+            }
+        }
+    }
+}
+
+{% endhighlight %}
+
+Instead of a number value assigned to the attribute, an object value is assigned that contains the `behaviour` and `value` fields.
+
+#### 3.2 Example 3
+
+{% highlight json %}
+
+{
+    "values": {
+        "examplemod:dexterity": {
+            "minecraft:generic.attack_speed": {
+                "behaviour": "MULTIPLY",
+                "value": 0.02
+            },
+            "examplemod:dash_speed": {
+                "behaviour": "ADDITION",
+                "value": 0.1
+            }
+        }
+    }
+}
+
+{% endhighlight %}
+
+Every point in `examplemod:dexterity` now increases Attack Speed by 2% - or more specifically, multiplies the total value of Attack Speed by `1.02 = 1.0 + 0.02`.
+
 ## Recursion
 
 The keen eye among you may have notices that there is an opportunity for recursion/infinite attributes. Lets show how this might be done:
